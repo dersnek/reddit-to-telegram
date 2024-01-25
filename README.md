@@ -1,5 +1,6 @@
  reddit-to-telegram
 =======================
+[![Gem Version](https://badge.fury.io/rb/reddit-to-telegram.svg)](https://badge.fury.io/rb/reddit-to-telegram)
 
 #### Fetches hot posts from chosen subreddits and pushes them to Telegram channels.
 
