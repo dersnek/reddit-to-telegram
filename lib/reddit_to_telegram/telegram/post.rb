@@ -9,7 +9,7 @@ module RedditToTelegram
     class Post
       include HTTParty
 
-      BASE_URI = "https://api.telegram.org/bot#{ENV['TELEGRAM_BOT_TOKEN']}".freeze
+      BASE_URI = "https://api.telegram.org/bot"
       JSON_HEADERS = { "Content-Type" => "application/json", "Accept" => "application/json" }.freeze
       FORM_HEADERS = { "Content-Type" => "multipart/form-data", "Accept" => "application/json" }.freeze
       METHOD_MAP = {
@@ -22,7 +22,7 @@ module RedditToTelegram
       class << self
         def push(post, channel)
           HTTParty.post(
-            "#{BASE_URI}/send#{METHOD_MAP[post[:type]]}",
+            "#{BASE_URI}#{Vars::Telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
             **params(post, channel)
           )
 

@@ -4,6 +4,7 @@ require "httparty"
 require_relative "auth"
 require_relative "output"
 require_relative "../store"
+require_relative "../vars"
 
 module RedditToTelegram
   module Reddit
@@ -11,8 +12,7 @@ module RedditToTelegram
       include HTTParty
 
       BASE_URI = "https://oauth.reddit.com/r"
-      LIMIT = ENV["MAX_STORED_POSTS"] ? ENV["MAX_STORED_POSTS"].to_i : 25
-      QUERY = { g: "GLOBAL", limit: LIMIT }.freeze
+      QUERY = { g: "GLOBAL", limit: Vars.max_stored_posts }.freeze
       BASE_HEADERS = {
         "Content-Type" => "application/json",
         "Accept" => "application/json"

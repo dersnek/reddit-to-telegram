@@ -2,6 +2,7 @@
 
 require "aws-sdk-simpledb"
 require "json"
+require_relative "../vars"
 
 module RedditToTelegram
   module Store
@@ -37,9 +38,9 @@ module RedditToTelegram
 
         def client
           @client ||= Aws::SimpleDB::Client.new(
-            access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-            secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-            region: ENV["AWS_REGION"]
+            access_key_id: Vars::AWS.access_key_id,
+            secret_access_key: Vars::AWS.secret_access_key,
+            region: Vars::AWS.region
           )
         end
 

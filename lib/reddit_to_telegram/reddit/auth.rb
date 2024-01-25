@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "httparty"
+require_relative "../vars"
 
 module RedditToTelegram
   module Reddit
@@ -10,7 +11,6 @@ module RedditToTelegram
       URI = "https://www.reddit.com/api/v1/access_token"
       PARAMS = { grant_type: "client_credentials" }.freeze
       HEADERS = { "Content-Type" => "application/x-www-form-urlencoded" }.freeze
-      BASIC_AUTH = { username: ENV["REDDIT_CLIENT_ID"], password: ENV["REDDIT_CLIENT_SECRET"] }.freeze
 
       class << self
         def token
@@ -18,7 +18,7 @@ module RedditToTelegram
             URI,
             body: PARAMS,
             headers: HEADERS,
-            basic_auth: BASIC_AUTH
+            basic_auth: { username: Vars::Reddit.client_id, password: Vars::Reddit.client_secret }
           )["access_token"]
         end
       end
