@@ -4,7 +4,7 @@
 
 #### Fetches hot posts from chosen subreddits and pushes them to Telegram channels.
 
-Beware, this is remotely not production-ready and you'll see lots of bugs.
+Beware, this is remotely not production-ready and you'll see lots of bugs. Be sure to check for gem updates.
 
 ## Installation
 In your `Gemfile` add:
