@@ -4,7 +4,8 @@
 
 #### Fetches hot posts from chosen subreddits and pushes them to Telegram channels.
 
-Beware, this is remotely not production-ready and you'll see lots of bugs. Be sure to check for gem updates.
+Beware, this is remotely not production-ready, you'll see lots of bugs and it may break at any time.
+Be sure to check for gem updates.
 
 ## Installation
 In your `Gemfile` add:
@@ -58,7 +59,3 @@ RedditToTelegram.post(
 
 ```
 Use `:telegram_channel_id` without the `@`.
-
-## TODO
-- Storage options
-- Error handling (maybe send them to another channel in Telegram)
