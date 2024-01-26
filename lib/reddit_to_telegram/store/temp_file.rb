@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "../vars"
 
 module RedditToTelegram
   module Store
     class TempFile
-      STORE_FILE_DIR = "#{Dir.pwd}/tmp/store.json".freeze
-
       class << self
         attr_reader :reddit_token, :posts
 
@@ -36,9 +35,9 @@ module RedditToTelegram
         end
 
         def read_file
-          return assign_default_values unless File.exist?(STORE_FILE_DIR)
+          return assign_default_values unless File.exist?(temp_file_path)
 
-          file = File.read(STORE_FILE_DIR)
+          file = File.read(temp_file_path)
           data = JSON.parse(file)
           @reddit_token = data["reddit_token"]
           @posts = {}
@@ -52,12 +51,16 @@ module RedditToTelegram
           @posts.each do |subreddit, values|
             data["posts_#{subreddit}".to_sym] = values
           end
-          File.open(STORE_FILE_DIR, "w") { |f| f.write(data.to_json) }
+          File.open(temp_file_path, "w") { |f| f.write(data.to_json) }
         end
 
         def assign_default_values
           @reddit_token = nil
           @posts = {}
+        end
+
+        def temp_file_path
+          "#{Vars.tmp_dir}/store.json"
         end
       end
     end

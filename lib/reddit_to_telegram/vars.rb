@@ -2,10 +2,13 @@
 
 module RedditToTelegram
   module Vars
+    DEFAULT_TMP_DIR = "#{Dir.pwd}/tmp".freeze
+
     class << self
       # rubocop:disable Metrics/ParameterLists
       def assign_values(
         max_stored_posts:,
+        tmp_dir:,
         aws_access_key_id:,
         aws_secret_access_key:,
         aws_region:,
@@ -15,6 +18,7 @@ module RedditToTelegram
       )
 
         @max_stored_posts = max_stored_posts
+        @tmp_dir = tmp_dir
         AWS.instance_variable_set(:@access_key_id, aws_access_key_id)
         AWS.instance_variable_set(:@secret_access_key, aws_secret_access_key)
         AWS.instance_variable_set(:@region, aws_region)
@@ -26,6 +30,10 @@ module RedditToTelegram
 
       def max_stored_posts
         @max_stored_posts ||= ENV["RTT_MAX_STORED_POSTS"].to_i || 25
+      end
+
+      def tmp_dir
+        @tmp_dir ||= ENV["RTT_TEMP_DIR"] || DEFAULT_TMP_DIR
       end
     end
 

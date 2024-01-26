@@ -32,7 +32,7 @@ module RedditToTelegram
           return post[:media] unless post[:misc][:binary]
 
           Video.from_link(post[:media])
-          File.open(Video::TEMP_VIDEO_PATH)
+          File.open(Video.temp_video_path)
         end
       end
     end

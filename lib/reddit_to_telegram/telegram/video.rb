@@ -1,23 +1,28 @@
 # frozen_string_literal: true
 
 require "open-uri"
+require_relative "../vars"
 
 module RedditToTelegram
   module Telegram
     class Video
-      TEMP_VIDEO_PATH = "#{Dir.pwd}/tmp/video.mp4".freeze
-
       class << self
         def from_link(link)
           download = URI.parse(link).open
-          IO.copy_stream(download, TEMP_VIDEO_PATH)
+          File.open(temp_video_path, "w+b") do |file|
+            download.respond_to?(:read) ? IO.copy_stream(download, file) : file.write(download)
+          end
         end
 
         def delete_file
-          f = File.open(TEMP_VIDEO_PATH, "r")
+          f = File.open(temp_video_path, "r")
         ensure
           f.close unless f.nil? || f.closed?
-          File.delete(TEMP_VIDEO_PATH) if File.exist?(TEMP_VIDEO_PATH)
+          File.delete(temp_video_path) if File.exist?(temp_video_path)
+        end
+
+        def temp_video_path
+          "#{Vars.tmp_dir}/video.mp4"
         end
       end
     end
