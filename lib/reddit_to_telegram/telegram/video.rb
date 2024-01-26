@@ -18,9 +18,8 @@ module RedditToTelegram
           return unless File.exist?(temp_video_path)
 
           f = File.open(temp_video_path, "r")
-        ensure
           f.close unless f.nil? || f.closed?
-          File.delete(temp_video_path) if File.exist?(temp_video_path)
+          File.delete(temp_video_path)
         end
 
         def temp_video_path
