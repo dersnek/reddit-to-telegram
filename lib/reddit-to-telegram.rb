@@ -3,6 +3,7 @@
 require_relative "reddit_to_telegram/reddit/fetch"
 require_relative "reddit_to_telegram/store"
 require_relative "reddit_to_telegram/telegram/post"
+require_relative "reddit_to_telegram/version"
 
 module RedditToTelegram
   class << self
