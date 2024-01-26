@@ -37,6 +37,7 @@ You can also set them dynamically:
 ```
 RedditToTelegram::Vars.assign_values(
   max_stored_posts:,
+  tmp_dir:
   aws_access_key_id:,
   aws_secret_access_key:,
   aws_region:,
