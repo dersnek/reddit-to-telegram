@@ -18,7 +18,7 @@ Or `gem install reddit-to-telegram`, but don't forget to `require` it first then
 ## Prerequisites
 - You need an AWS account to host a free SimpleDB (memory and local file storage options are available, but no way to switch for now)
 - (Optionally) Create a Reddit app, which would allow more requests to reddit
-- [Obtain](https://core.telegram.org/bots/tutorial#create-your-project) a telegram bot token
+- [Obtain](https://core.telegram.org/bots/tutorial#obtain-your-bot-token) a telegram bot token
 
 ## Installation
 To run it, you'll need some env variables set.
