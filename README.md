@@ -24,7 +24,7 @@ Or `gem install reddit-to-telegram`, but don't forget to `require` it first then
 To run it, you'll need some env variables set.
 ```
 RTT_AWS_ACCESS_KEY_ID= # Your AWS access key ID. Needed for AWS SimpleDB storage.
-RTT_AWS_REGION= # AWS region your SimpleDB will be hosted on. Beware, it's on available in all regions.
+RTT_AWS_REGION= # AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.
 RTT_AWS_SECRET_ACCESS_KEY= # Your AWS access key ID. Needed for AWS SimpleDB storage.
 RTT_MAX_STORED_POSTS= # (Optional) Number of posts to store in the database to avoid duplicates, default is 25.
 RTT_REDDIT_CLIENT_ID= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
