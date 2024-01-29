@@ -22,9 +22,10 @@ module RedditToTelegram
 
     class Store
       DEFAULT_TMP_DIR = "#{Dir.pwd}/tmp".freeze
+      DEFAULT_TYPE = :aws_simple_db
 
       class << self
-        attr_writer :max_stored_posts, :tmp_dir
+        attr_writer :max_stored_posts, :tmp_dir, :type
 
         def max_stored_posts
           @max_stored_posts ||= ENV["RTT_MAX_STORED_POSTS"].to_i || 50
@@ -32,6 +33,10 @@ module RedditToTelegram
 
         def tmp_dir
           @tmp_dir ||= ENV["RTT_TEMP_DIR"] || DEFAULT_TMP_DIR
+        end
+
+        def type
+          @type ||= ENV["RTT_STORE_TYPE"]&.to_sym || DEFAULT_TYPE
         end
       end
     end

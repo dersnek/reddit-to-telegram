@@ -12,3 +12,6 @@ Style/SingleArgumentDig:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/RaiseArgs:
+  Enabled: false
