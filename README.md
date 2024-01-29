@@ -21,7 +21,6 @@ Or `gem install reddit-to-telegram`, but don't forget to `require` it first then
 - (Optionally) Create a Reddit app, which would allow more requests to reddit
 - [Obtain](https://core.telegram.org/bots/tutorial#obtain-your-bot-token) a telegram bot token
 
-## Installation
 To run it, you'll need some env variables set.
 ```
 RTT_AWS_ACCESS_KEY_ID= # Your AWS access key ID. Needed for AWS SimpleDB storage.
