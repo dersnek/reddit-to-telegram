@@ -3,6 +3,7 @@
 require "httparty"
 require_relative "prepare_request"
 require_relative "video"
+require "../variables"
 
 module RedditToTelegram
   module Telegram
@@ -22,7 +23,7 @@ module RedditToTelegram
       class << self
         def push(post, channel)
           HTTParty.post(
-            "#{BASE_URI}#{Vars::Telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
+            "#{BASE_URI}#{Variables.telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
             **params(post, channel)
           )
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pry"
+
 require_relative "reddit_to_telegram/reddit/fetch"
 require_relative "reddit_to_telegram/store"
 require_relative "reddit_to_telegram/telegram/post"

@@ -37,7 +37,8 @@ RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
 
 You can also set them dynamically:
 ```
-RedditToTelegram::Vars.assign_values(
+RedditToTelegram::Variables.aws.aws_access_key_id =
+RedditToTelegram::Variables.telegram.bot_token = assign_values(
   max_stored_posts:,
   tmp_dir:
   aws_access_key_id:,

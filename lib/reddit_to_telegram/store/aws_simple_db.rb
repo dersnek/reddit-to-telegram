@@ -2,20 +2,19 @@
 
 require "aws-sdk-simpledb"
 require "json"
-require_relative "../vars"
+require_relative "../variables"
 
 module RedditToTelegram
   module Store
     class AWSSimpleDB
-      DOMAIN_NAME = "reddit_to_telegram"
       ITEM_NAME = "cached_data"
 
       class << self
         def client
           @client ||= Aws::SimpleDB::Client.new(
-            access_key_id: Vars::AWS.access_key_id,
-            secret_access_key: Vars::AWS.secret_access_key,
-            region: Vars::AWS.region
+            access_key_id: Variables.aws.access_key_id,
+            secret_access_key: Variables.aws.secret_access_key,
+            region: Variables.aws.region
           )
         end
 
@@ -24,7 +23,7 @@ module RedditToTelegram
         attr_reader :reddit_token
 
         def setup
-          create_domain unless client.list_domains.domain_names.include?(DOMAIN_NAME)
+          create_domain unless client.list_domains.domain_names.include?(Variables.aws.domain_name)
           read_db
         end
 
@@ -49,7 +48,7 @@ module RedditToTelegram
         def read_db
           res = client.get_attributes(
             {
-              domain_name: "reddit_to_telegram",
+              domain_name: Variables.aws.domain_name,
               item_name: "cached_data",
               consistent_read: true
             }
@@ -71,7 +70,7 @@ module RedditToTelegram
         def write_db
           client.put_attributes(
             {
-              domain_name: DOMAIN_NAME,
+              domain_name: Variables.aws.domain_name,
               item_name: ITEM_NAME,
               attributes: prepare_db_attrs
             }
@@ -103,9 +102,9 @@ module RedditToTelegram
           res = client.list_domains
           return unless res.successful?
 
-          return if res.domain_names.include?(DOMAIN_NAME)
+          return if res.domain_names.include?(Variables.aws.domain_name)
 
-          client.create_domain({ domain_name: DOMAIN_NAME })
+          client.create_domain({ domain_name: Variables.aws.domain_name })
         end
       end
     end

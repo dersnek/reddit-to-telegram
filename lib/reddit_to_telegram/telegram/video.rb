@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "open-uri"
-require_relative "../vars"
+require_relative "../variables"
 
 module RedditToTelegram
   module Telegram
@@ -23,7 +23,7 @@ module RedditToTelegram
         end
 
         def temp_video_path
-          "#{Vars.tmp_dir}/video.mp4"
+          "#{Variables.store.tmp_dir}/video.mp4"
         end
       end
     end
