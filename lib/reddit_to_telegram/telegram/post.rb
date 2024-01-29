@@ -3,7 +3,7 @@
 require "httparty"
 require_relative "prepare_request"
 require_relative "video"
-require "../variables"
+require_relative "../variables"
 
 module RedditToTelegram
   module Telegram
