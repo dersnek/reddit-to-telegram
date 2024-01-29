@@ -29,7 +29,7 @@ module RedditToTelegram
       # rubocop:enable Metrics/ParameterLists
 
       def max_stored_posts
-        @max_stored_posts ||= ENV["RTT_MAX_STORED_POSTS"].to_i || 25
+        @max_stored_posts ||= ENV["RTT_MAX_STORED_POSTS"].to_i || 50
       end
 
       def tmp_dir

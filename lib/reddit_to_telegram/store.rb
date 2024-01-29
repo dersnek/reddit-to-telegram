@@ -6,7 +6,7 @@ require_relative "store/temp_file"
 
 module RedditToTelegram
   module Store
-    MAX_STORED_POSTS = Vars.max_stored_posts ? Vars.max_stored_posts - 1 : 24
+    MAX_STORED_POSTS = Vars.max_stored_posts - 1
     STORE_MAP = {
       aws_simple_db: "RedditToTelegram::Store::AWSSimpleDB",
       memory: "RedditToTelegram::Store::Memory",
