@@ -31,6 +31,7 @@ RTT_AWS_SECRET_ACCESS_KEY= # Your AWS access key ID. Needed for AWS SimpleDB sto
 RTT_MAX_STORED_POSTS= # (Optional) Number of posts to store in the database to avoid duplicates, default is 25.
 RTT_REDDIT_CLIENT_ID= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
 RTT_REDDIT_CLIENT_SECRET= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
+RTT_STORE_TYPE= # (Optional) Choose between aws_simple_db, memory or temp_file
 RTT_TELEGRAM_BOT_TOKEN= # The token you've received when you've created a telegram bot.
 RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
 ```
@@ -38,17 +39,10 @@ RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
 You can also set them dynamically:
 ```
 RedditToTelegram::Variables.aws.aws_access_key_id =
-RedditToTelegram::Variables.telegram.bot_token = assign_values(
-  max_stored_posts:,
-  tmp_dir:
-  aws_access_key_id:,
-  aws_secret_access_key:,
-  aws_region:,
-  reddit_client_id:,
-  reddit_client_secret:,
-  telegram_bot_token:
-)
+RedditToTelegram::Variables.telegram.bot_token =
 ```
+Check out `lib/variables` for list of all available variables.
+
 ## Usage
 
 1. Add the bot as administrator to Telegram channels you'd like to post to.
