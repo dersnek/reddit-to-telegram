@@ -2,6 +2,7 @@
 
 module RedditToTelegram
   module Vars
+    DEFAULT_DOMAIN_NAME = "reddit_to_telegram"
     DEFAULT_TMP_DIR = "#{Dir.pwd}/tmp".freeze
 
     class << self
@@ -49,6 +50,10 @@ module RedditToTelegram
 
         def region
           @region ||= ENV["RTT_AWS_REGION"]
+        end
+
+        def domain_name
+          @domain_name ||= ENV["RTT_AWS_DOMAIN_NAME"] || Vars::DEFAULT_DOMAIN_NAME
         end
       end
     end
