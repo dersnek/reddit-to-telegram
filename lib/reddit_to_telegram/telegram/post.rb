@@ -28,7 +28,7 @@ module RedditToTelegram
           )
 
           push({ type: :text, id: post[:id], text: post[:text] }, channel) if post[:type] == :gallery
-          Video.delete_file if post[:type] == :video
+          Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
         end
 
         private
