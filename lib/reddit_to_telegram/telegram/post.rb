@@ -30,6 +30,8 @@ module RedditToTelegram
           Video.delete_file if post[:type] == :video
         end
 
+        private
+
         def params(post, channel)
           binary = post.dig(:misc)&.dig(:binary)
           body = PrepareRequest.body(post, channel)

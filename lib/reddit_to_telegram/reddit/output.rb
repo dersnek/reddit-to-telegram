@@ -10,6 +10,8 @@ module RedditToTelegram
           posts.map { |post| format_post(post) }.compact
         end
 
+        private
+
         def format_post(post)
           data = post["data"]
           if data["post_hint"] == "image"

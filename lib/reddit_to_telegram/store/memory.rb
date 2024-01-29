@@ -4,6 +4,8 @@ module RedditToTelegram
   module Store
     class Memory
       class << self
+        private
+
         attr_accessor :reddit_token
 
         @posts = {}

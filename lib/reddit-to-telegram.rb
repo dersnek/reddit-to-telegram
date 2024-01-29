@@ -18,6 +18,8 @@ module RedditToTelegram
       end
     end
 
+    private
+
     def handle_res(res, subreddit, telegram_chat_id)
       return if res.nil?
 

@@ -29,6 +29,8 @@ module RedditToTelegram
           handle_response(res, subreddit, retries_left)
         end
 
+        private
+
         def handle_response(res, subreddit, retries_left)
           case res.code
           when 401

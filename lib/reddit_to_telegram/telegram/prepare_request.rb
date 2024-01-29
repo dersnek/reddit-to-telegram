@@ -19,6 +19,8 @@ module RedditToTelegram
           end
         end
 
+        private
+
         def prepare_text(post, chat_id)
           id = post[:id].split("_")[1]
           "#{post[:text]}\n\nhttps://redd.it/#{id}\n@#{chat_id}"

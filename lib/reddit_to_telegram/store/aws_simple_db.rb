@@ -11,6 +11,16 @@ module RedditToTelegram
       ITEM_NAME = "cached_data"
 
       class << self
+        def client
+          @client ||= Aws::SimpleDB::Client.new(
+            access_key_id: Vars::AWS.access_key_id,
+            secret_access_key: Vars::AWS.secret_access_key,
+            region: Vars::AWS.region
+          )
+        end
+
+        private
+
         attr_reader :reddit_token
 
         def setup
@@ -34,14 +44,6 @@ module RedditToTelegram
           return false if @posts[subreddit].nil?
 
           @posts[subreddit].include?(id)
-        end
-
-        def client
-          @client ||= Aws::SimpleDB::Client.new(
-            access_key_id: Vars::AWS.access_key_id,
-            secret_access_key: Vars::AWS.secret_access_key,
-            region: Vars::AWS.region
-          )
         end
 
         def read_db

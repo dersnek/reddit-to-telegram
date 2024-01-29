@@ -7,6 +7,8 @@ module RedditToTelegram
   module Store
     class TempFile
       class << self
+        private
+
         attr_reader :reddit_token, :posts
 
         @reddit_token = nil
