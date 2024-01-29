@@ -14,12 +14,12 @@ gem "reddit-to-telegram"
 ```
 Then run `bundle install`.
 
-Or `gem install reddit-to-telegram`, but don't forget to `require` it first then.
+Or `gem install reddit-to-telegram`. Don't forget to `require` it.
 
 ## Prerequisites
-- You need an AWS account to host a free SimpleDB (memory and local file storage options are available, but no way to switch for now)
-- (Optionally) Create a Reddit app, which would allow more requests to reddit
-- [Obtain](https://core.telegram.org/bots/tutorial#obtain-your-bot-token) a telegram bot token
+- (Optionally) You'll need an [AWS account](https://aws.amazon.com/) to host a free SimpleDB (best available storage type, also default one). I also recommend hosting the bot on AWS lambda, since it would be free.
+- (Optionally) [Create a Reddit app](https://www.reddit.com/prefs/apps), which would allow more requests to reddit
+- [Obtain a telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
 
 To run it, you'll need some env variables set.
 ```
