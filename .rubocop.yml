@@ -1,6 +1,9 @@
 Metrics/MethodLength:
   Max: 20
 
+Naming/VariableNumber:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 

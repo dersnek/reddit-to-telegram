@@ -45,13 +45,16 @@ Check out `lib/variables` for list of all available variables.
 ## Usage
 
 1. Add the bot as administrator to Telegram channels you'd like to post to.
-2.
+2a. To fetch latest hot post which hasn't been pushed yet:
 ```
-RedditToTelegram.post(
+RedditToTelegram.hot(
     subreddit_name_1: :telegram_channel_id_1,
     subreddit_name_2: :telegram_channel_id_2
   )
-
+```
+2b. To push one specific post:
+```
+RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
 ```
 Use `:telegram_channel_id` without the `@`.
 
@@ -62,5 +65,4 @@ Use `:telegram_channel_id` without the `@`.
 - Imgur gifv links are not uploaded as videos/gifs
 
 ## Planned features
-- Push specific post
 - Error handling

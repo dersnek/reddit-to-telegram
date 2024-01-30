@@ -5,12 +5,18 @@ module RedditToTelegram
     class Output
       class << self
         def format_response(res)
+          return format_post(res[0]["data"]["children"][0]) if single_post?(res)
+
           posts = res["data"]["children"]
           posts.reject! { |post| post["data"]["stickied"] == true }
           posts.map { |post| format_post(post) }.compact
         end
 
         private
+
+        def single_post?(res)
+          res.parsed_response.is_a?(Array) && res[0]["data"]["dist"] == 1
+        end
 
         def format_post(post)
           data = post["data"]
