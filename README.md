@@ -59,7 +59,6 @@ RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
 Use `:telegram_channel_id` without the `@`.
 
 ## Known bugs
-- Gallery image order is random
 - Special characters are not unescaped in text/captions
 - Imgur gifv links are not uploaded as videos/gifs
 
