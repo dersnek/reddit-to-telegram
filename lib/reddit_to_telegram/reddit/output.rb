@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "cgi"
+
 module RedditToTelegram
   module Reddit
     class Output
@@ -77,7 +79,7 @@ module RedditToTelegram
 
         def base_post_format_attrs(data)
           { id: data["name"],
-            text: data["title"] }
+            text: CGI.unescapeHTML(data["title"]) }
         end
 
         def prepare_gallery_links(data)
