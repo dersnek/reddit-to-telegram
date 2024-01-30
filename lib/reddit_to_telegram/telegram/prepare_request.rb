@@ -15,7 +15,13 @@ module RedditToTelegram
           when :text
             { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id) }
           when :video
-            { chat_id: "@#{chat_id}", video: prepare_video(post), caption: prepare_text(post, chat_id) }
+            {
+              chat_id: "@#{chat_id}",
+              video: prepare_video(post),
+              height: post[:misc][:video_height],
+              width: post[:misc][:video_width],
+              caption: prepare_text(post, chat_id)
+            }
           end
         end
 

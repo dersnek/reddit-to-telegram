@@ -67,7 +67,9 @@ module RedditToTelegram
               type: :video,
               media: video_url,
               misc: {
-                binary: video_data["has_audio"] || false
+                binary: video_data["has_audio"] || false,
+                video_height: video_data["height"],
+                video_width: video_data["width"]
               }
             }
           )
