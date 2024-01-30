@@ -54,3 +54,13 @@ RedditToTelegram.post(
 
 ```
 Use `:telegram_channel_id` without the `@`.
+
+## Known bugs
+- Landscape videos are uploaded as square videos to Telegram
+- Gallery image order is random
+- Special characters are not unescaped in text/captions
+- Imgur gifv links are not uploaded as videos/gifs
+
+## Planned features
+- Push specific post
+- Error handling
