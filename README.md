@@ -37,7 +37,7 @@ RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
 
 You can also set them dynamically:
 ```
-RedditToTelegram::Variables.aws.aws_access_key_id =
+RedditToTelegram::Variables.aws.access_key_id =
 RedditToTelegram::Variables.telegram.bot_token =
 ```
 Check out `lib/variables` for list of all available variables.
@@ -45,14 +45,14 @@ Check out `lib/variables` for list of all available variables.
 ## Usage
 
 1. Add the bot as administrator to Telegram channels you'd like to post to.
-2a. To fetch latest hot post which hasn't been pushed yet:
+2. To fetch latest hot post which hasn't been pushed yet:
 ```
 RedditToTelegram.hot(
     subreddit_name_1: :telegram_channel_id_1,
     subreddit_name_2: :telegram_channel_id_2
   )
 ```
-2b. To push one specific post:
+Or to push one specific post (the only thing you need to set up for this is your telegram bot token):
 ```
 RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
 ```
