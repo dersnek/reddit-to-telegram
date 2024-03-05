@@ -2,6 +2,7 @@
 
 require "aws-sdk-simpledb"
 require "json"
+require_relative "../errors"
 require_relative "../variables"
 
 module RedditToTelegram
