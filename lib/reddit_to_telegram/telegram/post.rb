@@ -22,13 +22,14 @@ module RedditToTelegram
 
       class << self
         def push(post, channel)
-          HTTParty.post(
+          res = HTTParty.post(
             "#{BASE_URI}#{Variables.telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
             **params(post, channel)
           )
 
           push({ type: :text, id: post[:id], text: post[:text] }, channel) if post[:type] == :gallery
           Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
+          res
         end
 
         private

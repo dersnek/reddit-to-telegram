@@ -37,8 +37,9 @@ module RedditToTelegram
         post = find_new_post(subreddit, res)
         return if post.nil?
 
-        Telegram::Post.push(post, telegram_chat_id)
+        res = Telegram::Post.push(post, telegram_chat_id)
         Store::Posts.add(subreddit, post[:id])
+        res
       end
 
       def find_new_post(subreddit, posts)
