@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "cgi"
+require_relative "output/imgur"
 
 module RedditToTelegram
   module Reddit
@@ -41,6 +42,9 @@ module RedditToTelegram
         end
 
         def format_link_post(data)
+          res = Imgur.try_extract(data) if data["domain"] == "imgur.com"
+          return res unless res.nil?
+
           base_post_format_attrs(data).merge(
             { type: :text,
               text: "#{data['title']}\n\n#{data['url']}" }
