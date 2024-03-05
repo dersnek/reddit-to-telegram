@@ -23,14 +23,14 @@ Or `gem install reddit-to-telegram`. Don't forget to `require` it.
 
 To run it, you'll need some env variables set.
 ```
-RTT_AWS_ACCESS_KEY_ID= # Your AWS access key ID. Needed for AWS SimpleDB storage.
+RTT_AWS_ACCESS_KEY_ID= # (Optional) Your AWS access key ID. Needed for AWS SimpleDB storage.
 RTT_AWS_DOMAIN_NAME= # (Optional) Domain name to use for SimpleDB
-RTT_AWS_REGION= # AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.
-RTT_AWS_SECRET_ACCESS_KEY= # Your AWS access key ID. Needed for AWS SimpleDB storage.
+RTT_AWS_REGION= # (Optional) AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.
+RTT_AWS_SECRET_ACCESS_KEY= # (Optional) Your AWS access key ID. Needed for AWS SimpleDB storage.
 RTT_MAX_STORED_POSTS= # (Optional) Number of posts to store in the database to avoid duplicates, default is 25.
 RTT_REDDIT_CLIENT_ID= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
 RTT_REDDIT_CLIENT_SECRET= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
-RTT_STORE_TYPE= # (Optional) Choose between aws_simple_db, memory or temp_file
+RTT_STORE_TYPE= # (Optional) Choose between aws_simple_db, memory or temp_file. Default is aws_simple_db, so if you're not specifying your AWS credentials, you have to specify another store type.
 RTT_TELEGRAM_BOT_TOKEN= # The token you've received when you've created a telegram bot.
 RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
 ```
@@ -59,5 +59,4 @@ RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
 Use `:telegram_channel_id` without the `@`.
 
 ## Planned features
-- Upload Imgur gifv links as videos/gifs
 - Error handling

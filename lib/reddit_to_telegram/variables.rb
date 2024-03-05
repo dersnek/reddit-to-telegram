@@ -42,10 +42,11 @@ module RedditToTelegram
     end
 
     class AWS
+      ATTRS = %i[access_key_id secret_access_key region domain_name].freeze
       DEFAULT_DOMAIN_NAME = "reddit_to_telegram"
 
       class << self
-        attr_writer :access_key_id, :secret_access_key, :region, :domain_name
+        attr_writer(*ATTRS)
 
         def access_key_id
           @access_key_id ||= ENV["RTT_AWS_ACCESS_KEY_ID"]
@@ -61,6 +62,10 @@ module RedditToTelegram
 
         def domain_name
           @domain_name ||= ENV["RTT_AWS_DOMAIN_NAME"] || DEFAULT_DOMAIN_NAME
+        end
+
+        def set_up?
+          ATTRS.all? { |a| !a.empty? }
         end
       end
     end

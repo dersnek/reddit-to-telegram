@@ -23,8 +23,18 @@ module RedditToTelegram
         attr_reader :reddit_token
 
         def setup
+          check_credentials
           create_domain unless client.list_domains.domain_names.include?(Variables.aws.domain_name)
           read_db
+        end
+
+        def check_credentials
+          return unless Variables.store.type == :aws_simple_db
+
+          return if Variables.aws.all_present?
+
+          raise(MissingVariables.new("Missing AWS credentials. "\
+            "Set them up or change store type to anything other than aws_simple_db"))
         end
 
         def reddit_token=(val)
