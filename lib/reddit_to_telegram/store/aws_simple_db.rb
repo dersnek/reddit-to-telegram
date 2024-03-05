@@ -32,7 +32,7 @@ module RedditToTelegram
         def check_credentials
           return unless Variables.store.type == :aws_simple_db
 
-          return if Variables.aws.all_present?
+          return if Variables.aws.set_up?
 
           raise(MissingVariables.new("Missing AWS credentials. "\
             "Set them up or change store type to anything other than aws_simple_db"))
