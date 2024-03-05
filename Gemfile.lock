@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    reddit-to-telegram (0.4.0)
+    reddit-to-telegram (0.5.0)
       aws-sdk-simpledb
       httparty
 
