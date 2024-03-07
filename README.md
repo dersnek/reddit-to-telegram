@@ -68,3 +68,11 @@ RedditToTelegram.hot(
     translate: :ja
   )
 ```
+You can also specify if you want to add reddit link or telegram channel handle to the post text. By default they won't be added.
+```
+RedditToTelegram.hot(
+    { subreddit_name_1: :telegram_channel_id_1 },
+    add_reddit_link: true,
+    add_channel_handle: true
+  )
+```

@@ -21,10 +21,10 @@ module RedditToTelegram
       }.freeze
 
       class << self
-        def push(post, channel)
+        def push(post, channel, opts = {})
           res = HTTParty.post(
             "#{BASE_URI}#{Variables.telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
-            **params(post, channel)
+            **params(post, channel, opts)
           )
 
           push({ type: :text, id: post[:id], text: post[:text] }, channel) if post[:type] == :gallery
@@ -34,9 +34,9 @@ module RedditToTelegram
 
         private
 
-        def params(post, channel)
+        def params(post, channel, opts = {})
           binary = post.dig(:misc)&.dig(:binary)
-          body = PrepareRequest.body(post, channel)
+          body = PrepareRequest.body(post, channel, opts)
 
           pars = {
             body: binary ? body : body.to_json,

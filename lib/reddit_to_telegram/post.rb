@@ -28,7 +28,7 @@ module RedditToTelegram
 
         res = Reddit::Fetch.post(link)
         res = translate(res, opts[:translate]) if opts[:translate]
-        Telegram::Post.push(res, telegram_chat_id)
+        Telegram::Post.push(res, telegram_chat_id, opts)
       end
 
       private
@@ -40,7 +40,7 @@ module RedditToTelegram
         return if post.nil?
 
         post = translate(post, opts[:translate]) if opts[:translate]
-        res = Telegram::Post.push(post, telegram_chat_id)
+        res = Telegram::Post.push(post, telegram_chat_id, opts)
         Store::Posts.add(subreddit, post[:id])
         res
       end

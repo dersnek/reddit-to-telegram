@@ -6,30 +6,37 @@ module RedditToTelegram
   module Telegram
     class PrepareRequest
       class << self
-        def body(post, chat_id)
+        def body(post, chat_id, opts = {})
           case post[:type]
           when :image
-            { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id) }
+            { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id, opts) }
           when :gallery
-            { chat_id: "@#{chat_id}", media: prepare_gallery_media(post), caption: prepare_text(post, chat_id) }
+            { chat_id: "@#{chat_id}", media: prepare_gallery_media(post), caption: prepare_text(post, chat_id, opts) }
           when :text
-            { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id) }
+            { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id, opts) }
           when :video
             {
               chat_id: "@#{chat_id}",
               video: prepare_video(post),
               height: post[:misc][:video_height],
               width: post[:misc][:video_width],
-              caption: prepare_text(post, chat_id)
+              caption: prepare_text(post, chat_id, opts)
             }
           end
         end
 
         private
 
-        def prepare_text(post, chat_id)
-          id = post[:id].split("_")[1]
-          "#{post[:text]}\n\nhttps://redd.it/#{id}\n@#{chat_id}"
+        def prepare_text(post, chat_id, opts = {})
+          text = post[:text]
+
+          if opts[:add_reddit_link]
+            id = post[:id].split("_")[1]
+            text += "\n\nhttps://redd.it/#{id}"
+          end
+
+          text += "\n\n@#{chat_id}" if opts[:add_channel_handle]
+          text
         end
 
         def prepare_gallery_media(post)
