@@ -41,7 +41,7 @@ module RedditToTelegram
             query: QUERY_FOR_POST,
             headers:
           )
-          handle_response(res, post: retries_left)
+          handle_response(res, post: [link, retries_left])
         end
 
         private
