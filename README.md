@@ -22,19 +22,20 @@ Or `gem install reddit-to-telegram`. Don't forget to `require` it.
 - [Obtain a telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
 
 To run it, you'll need some env variables set.
-```
-RTT_AWS_ACCESS_KEY_ID= # (Optional) Your AWS access key ID. Needed for AWS SimpleDB storage.
-RTT_AWS_DOMAIN_NAME= # (Optional) Domain name to use for SimpleDB
-RTT_AWS_REGION= # (Optional) AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.
-RTT_AWS_SECRET_ACCESS_KEY= # (Optional) Your AWS access key ID. Needed for AWS SimpleDB storage.
-RTT_GOOGLE_API_KEY= # (Optional) Your Google API key to translate posts via Google Translate.
-RTT_MAX_STORED_POSTS= # (Optional) Number of posts to store in the database to avoid duplicates, default is 25.
-RTT_REDDIT_CLIENT_ID= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
-RTT_REDDIT_CLIENT_SECRET= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
-RTT_STORE_TYPE= # (Optional) Choose between aws_simple_db, memory or temp_file. Default is aws_simple_db, so if you're not specifying your AWS credentials, you have to specify another store type.
-RTT_TELEGRAM_BOT_TOKEN= # The token you've received when you've created a telegram bot.
-RTT_TEMP_DIR= (Optional) # Directory to write temp files to without trailing /
-```
+| Variable Name | Description | Required |
+| ------------- | ----------- | -------- |
+| RTT_AWS_ACCESS_KEY_ID     | Your AWS access key ID. Needed for AWS SimpleDB storage                                                                                                                       | No  |
+| RTT_AWS_DOMAIN_NAME       | Domain name to use for SimpleDB                                                                                                                                               | No  |
+| RTT_AWS_REGION            | AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.                                                                                        | No  |
+| RTT_AWS_SECRET_ACCESS_KEY | Your AWS access key ID. Needed for AWS SimpleDB storage.                                                                                                                      | No  |
+| RTT_GOOGLE_API_KEY        | Your Google API key to translate posts via Google Translate.                                                                                                                  | No  |
+| RTT_MAX_STORED_POSTS      | Number of posts to store in the database to avoid duplicates, default is 25.                                                                                                  | No  |
+| RTT_REDDIT_CLIENT_ID      | Reddit app credentials to access API. Reddit allows more authenticated requests.                                                                                              | No  |
+| RTT_REDDIT_CLIENT_SECRET  | Reddit app credentials to access API. Reddit allows more authenticated requests.                                                                                              | No  |
+| RTT_STORE_TYPE            | Choose between `aws_simple_db`, `memory` or `temp_file`. Default is `aws_simple_db`, so if you're not specifying your AWS credentials, you have to choose another store type. | No  |
+| RTT_TELEGRAM_BOT_TOKEN    | The token you've received when you've created a telegram bot.                                                                                                                 | Yes |
+| RTT_TEMP_DIR              | Directory to write temp files to without trailing `/`                                                                                                                         | No  |
+
 
 You can also set them dynamically:
 ```
