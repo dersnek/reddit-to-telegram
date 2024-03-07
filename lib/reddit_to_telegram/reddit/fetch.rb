@@ -33,8 +33,11 @@ module RedditToTelegram
 
         def post(link, retries_left = 5)
           headers = BASE_HEADERS.merge("Authorization" => "Bearer #{Store::Reddit.token}")
+          link = link.gsub("www", "oauth") if link.match?(/www.reddit.com/)
+          link += ".json" unless link.match?(/.json/)
+
           res = HTTParty.get(
-            "#{link.gsub('www', 'oauth')}.json",
+            link,
             query: QUERY_FOR_POST,
             headers:
           )
