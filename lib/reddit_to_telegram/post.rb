@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "reddit/fetch"
-require_relative "services/translate"
 require_relative "store"
 require_relative "telegram/post"
 require_relative "variables"
@@ -27,8 +26,8 @@ module RedditToTelegram
         Store.setup
 
         res = Reddit::Fetch.post(link)
-        res = translate(res, opts[:translate]) if opts[:translate]
         Telegram::Post.push(res, telegram_chat_id, opts)
+        res
       end
 
       private
@@ -39,7 +38,6 @@ module RedditToTelegram
         post = find_new_post(subreddit, res)
         return if post.nil?
 
-        post = translate(post, opts[:translate]) if opts[:translate]
         res = Telegram::Post.push(post, telegram_chat_id, opts)
         Store::Posts.add(subreddit, post[:id])
         res
@@ -47,11 +45,6 @@ module RedditToTelegram
 
       def find_new_post(subreddit, posts)
         posts.find { |post| !Store::Posts.dup?(subreddit, post[:id]) }
-      end
-
-      def translate(post, target_language)
-        post[:text] = Services::Translate.text(post[:text], target_language)
-        post
       end
     end
   end

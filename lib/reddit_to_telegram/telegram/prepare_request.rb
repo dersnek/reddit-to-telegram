@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "video"
+require_relative "../services/translate"
 
 module RedditToTelegram
   module Telegram
@@ -29,6 +30,8 @@ module RedditToTelegram
 
         def prepare_text(post, chat_id, opts = {})
           text = post[:text]
+
+          text = Services::Translate.text(text, opts[:translate]) if opts[:translate]
 
           if opts[:add_reddit_link]
             id = post[:id].split("_")[1]
