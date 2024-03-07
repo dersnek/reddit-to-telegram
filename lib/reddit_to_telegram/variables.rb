@@ -7,6 +7,10 @@ module RedditToTelegram
         RedditToTelegram::Variables::AWS
       end
 
+      def google
+        RedditToTelegram::Variables::Google
+      end
+
       def reddit
         RedditToTelegram::Variables::Reddit
       end
@@ -65,7 +69,21 @@ module RedditToTelegram
         end
 
         def set_up?
-          ATTRS.all? { |a| !a.empty? }
+          ATTRS.all? { |a| !a.to_s.empty? }
+        end
+      end
+    end
+
+    class Google
+      class << self
+        attr_writer :api_key
+
+        def api_key
+          @api_key ||= ENV["RTT_GOOGLE_API_KEY"]
+        end
+
+        def set_up?
+          !api_key.to_s.empty?
         end
       end
     end

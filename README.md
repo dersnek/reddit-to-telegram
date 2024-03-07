@@ -27,6 +27,7 @@ RTT_AWS_ACCESS_KEY_ID= # (Optional) Your AWS access key ID. Needed for AWS Simpl
 RTT_AWS_DOMAIN_NAME= # (Optional) Domain name to use for SimpleDB
 RTT_AWS_REGION= # (Optional) AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.
 RTT_AWS_SECRET_ACCESS_KEY= # (Optional) Your AWS access key ID. Needed for AWS SimpleDB storage.
+RTT_GOOGLE_API_KEY= # (Optional) Your Google API key to translate posts via Google Translate.
 RTT_MAX_STORED_POSTS= # (Optional) Number of posts to store in the database to avoid duplicates, default is 25.
 RTT_REDDIT_CLIENT_ID= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
 RTT_REDDIT_CLIENT_SECRET= # Reddit app credentials to access API. Might not be needed depending on setup, reddit allows some requests without authentication.
@@ -57,3 +58,13 @@ Or to push one specific post (the only thing you need to set up for this is your
 RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
 ```
 Use `:telegram_channel_id` without the `@`.
+
+### Options
+
+Translate option is supported. You will have to set up Google Translate API key and add it to env. You can find available languages in [Google Translate docs](https://cloud.google.com/translate/docs/languages).
+```
+RedditToTelegram.hot(
+    { subreddit_name_1: :telegram_channel_id_1 },
+    translate: :ja
+  )
+```
