@@ -38,7 +38,11 @@ module RedditToTelegram
             text += "\n\nhttps://redd.it/#{id}"
           end
 
-          text += "\n\n@#{chat_id}" if opts[:add_channel_handle]
+          if opts[:add_channel_handle]
+            text += opts[:add_reddit_link] ? "\n" : "\n\n"
+            text += "@#{chat_id}"
+          end
+
           text
         end
 
