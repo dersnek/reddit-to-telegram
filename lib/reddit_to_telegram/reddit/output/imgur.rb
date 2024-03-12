@@ -9,6 +9,8 @@ module RedditToTelegram
         class << self
           def try_extract(data)
             full_url = decode_imgur_url(data)
+            return unless full_url
+
             video_url = extract_video_url(full_url)
             width = extract_video_width(full_url)
             return if video_url.nil? || width.nil?
@@ -23,6 +25,8 @@ module RedditToTelegram
                           .dig("media_embed", "content")
                           &.match(/src=\"\S+schema=imgur\"/)&.to_s
                           &.gsub(/src=\"|\"/, 'src=\"' => "", '\"' => "")
+            return unless encoded_url
+
             CGI.unescape(encoded_url)
           end
 
