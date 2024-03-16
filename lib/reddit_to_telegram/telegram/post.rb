@@ -27,7 +27,10 @@ module RedditToTelegram
             **params(post, channel, opts)
           )
 
-          push({ type: :text, id: post[:id], text: post[:text] }, channel, opts) if post[:type] == :gallery
+          if post[:type] == :gallery
+            push({ type: :text, id: post[:id], text: post[:text] }, channel, opts.merge(disable_link_preview: true))
+          end
+
           Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
           res
         end

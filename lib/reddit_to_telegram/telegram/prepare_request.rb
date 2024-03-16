@@ -8,6 +8,14 @@ module RedditToTelegram
     class PrepareRequest
       class << self
         def body(post, chat_id, opts = {})
+          body = prepare_body(post, chat_id, opts)
+          body[:link_preview_options] = { is_disabled: true } if opts[:disable_link_preview]
+          body
+        end
+
+        private
+
+        def prepare_body(post, chat_id, opts = {})
           case post[:type]
           when :image
             { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id, opts) }
@@ -25,8 +33,6 @@ module RedditToTelegram
             }
           end
         end
-
-        private
 
         def prepare_text(post, chat_id, opts = {})
           text = post[:text]
