@@ -27,10 +27,7 @@ module RedditToTelegram
             **params(post, channel, opts)
           )
 
-          if post[:type] == :gallery
-            push({ type: :text, id: post[:id], text: post[:text] }, channel, opts.merge(disable_link_preview: true))
-          end
-
+          push_gallery_caption(post, channel, res, opts) if post[:type] == :gallery
           Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
           res
         end
@@ -47,6 +44,19 @@ module RedditToTelegram
           }
           pars[:multipart] = true if binary
           pars
+        end
+
+        def push_gallery_caption(post, channel, res, opts = {})
+          push({ type: :text, id: post[:id], text: post[:text] }, channel, opts.merge(gallery_caption_opts(res)))
+        end
+
+        def gallery_caption_opts(res)
+          gallery_caption_options = { disable_link_preview: true }
+          reply_to = res.dig("result", 0, "message_id")
+          return gallery_caption_options if reply_to.nil?
+
+          gallery_caption_options[:reply_to] = reply_to
+          gallery_caption_options
         end
       end
     end

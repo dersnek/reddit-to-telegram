@@ -10,6 +10,7 @@ module RedditToTelegram
         def body(post, chat_id, opts = {})
           body = prepare_body(post, chat_id, opts)
           body[:link_preview_options] = { is_disabled: true } if opts[:disable_link_preview]
+          body[:reply_parameters] = { message_id: opts[:reply_to] } if opts[:reply_to]
           body
         end
 
