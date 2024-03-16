@@ -27,9 +27,7 @@ module RedditToTelegram
             **params(post, channel, opts)
           )
 
-          push_gallery_caption(post, channel, res, opts) if post[:type] == :gallery
-          Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
-          res
+          handle_response(post, channel, res, opts)
         end
 
         private
@@ -46,6 +44,13 @@ module RedditToTelegram
           pars
         end
 
+        def handle_response(post, channel, res, opts = {})
+          push_error(post, channel, res, opts) unless res["ok"] || opts[:no_retry]
+          push_gallery_caption(post, channel, res, opts) if post[:type] == :gallery
+          Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
+          res
+        end
+
         def push_gallery_caption(post, channel, res, opts = {})
           push({ type: :text, id: post[:id], text: post[:text] }, channel, opts.merge(gallery_caption_opts(res)))
         end
@@ -57,6 +62,24 @@ module RedditToTelegram
 
           gallery_caption_options[:reply_to] = reply_to
           gallery_caption_options
+        end
+
+        def push_error(post, channel, res, opts = {})
+          return if Variables.telegram.error_channel_id.to_s.empty?
+
+          push(
+            {
+              type: :text,
+              id: post[:id],
+              text: "Channel: @#{channel}\n\nResponse: #{res}"
+            },
+            Variables.telegram.error_channel_id,
+            opts.merge(
+              add_reddit_link: true,
+              disable_link_preview: true,
+              no_retry: true
+            )
+          )
         end
       end
     end

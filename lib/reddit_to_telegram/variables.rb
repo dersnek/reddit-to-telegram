@@ -104,10 +104,14 @@ module RedditToTelegram
 
     class Telegram
       class << self
-        attr_writer :bot_token
+        attr_writer :bot_token, :error_channel_id
 
         def bot_token
           @bot_token ||= ENV["RTT_TELEGRAM_BOT_TOKEN"]
+        end
+
+        def error_channel_id
+          @error_channel_id ||= ENV["RTT_TELEGRAM_ERROR_CHANNEL_ID"]
         end
       end
     end
