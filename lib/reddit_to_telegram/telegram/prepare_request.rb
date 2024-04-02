@@ -22,6 +22,8 @@ module RedditToTelegram
             { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id, opts) }
           when :gallery
             { chat_id: "@#{chat_id}", media: prepare_gallery_media(post), caption: prepare_text(post, chat_id, opts) }
+          when :gif
+            { chat_id: "@#{chat_id}", animation: post[:media], caption: prepare_text(post, chat_id, opts) }
           when :text
             { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id, opts) }
           when :video

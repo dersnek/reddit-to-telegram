@@ -35,8 +35,10 @@ module RedditToTelegram
         end
 
         def format_image_post(data)
+          post_type = data["url"]&.split(".")&.last == "gif" ? :gif : :image
+
           base_post_format_attrs(data).merge(
-            { type: :image,
+            { type: post_type,
               media: data["url"] }
           )
         end

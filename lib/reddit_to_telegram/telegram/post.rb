@@ -4,6 +4,7 @@ require "httparty"
 require_relative "prepare_request"
 require_relative "video"
 require_relative "../variables"
+require "pry"
 
 module RedditToTelegram
   module Telegram
@@ -16,6 +17,7 @@ module RedditToTelegram
       METHOD_MAP = {
         image: :photo,
         gallery: :mediagroup,
+        gif: :animation,
         text: :message,
         video: :video
       }.freeze
