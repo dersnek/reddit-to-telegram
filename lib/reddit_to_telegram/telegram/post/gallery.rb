@@ -9,7 +9,7 @@ module RedditToTelegram
         class << self
           def push_remaining_gallery_data(post, channel, res, opts = {})
             if post[:additional_media]
-              push_remaining_gallery_images(post, channel, res, opts)
+              push_remaining_gallery_images(post, channel, opts)
             else
               push_gallery_caption(post, channel, res, opts)
             end
@@ -17,7 +17,7 @@ module RedditToTelegram
 
           private
 
-          def push_remaining_gallery_images(post, channel, _res, opts = {})
+          def push_remaining_gallery_images(post, channel,opts = {})
             post[:media] = post[:additional_media].first(10)
             remaining = post.delete(:additional_media).drop(10)
             post[:additional_media] = remaining unless remaining.empty?
