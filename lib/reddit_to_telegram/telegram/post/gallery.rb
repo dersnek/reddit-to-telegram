@@ -30,7 +30,7 @@ module RedditToTelegram
                 id: post[:id],
                 text: post[:text] },
               channel,
-              opts.merge(gallery_caption_opts(res, opts))
+              opts.merge(gallery_caption_opts(res))
             )
           end
 
