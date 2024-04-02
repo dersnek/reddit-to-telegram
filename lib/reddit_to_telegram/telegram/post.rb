@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require "httparty"
+require_relative "post/gallery"
 require_relative "prepare_request"
 require_relative "video"
 require_relative "../variables"
-require "pry"
 
 module RedditToTelegram
   module Telegram
@@ -48,22 +48,9 @@ module RedditToTelegram
 
         def handle_response(post, channel, res, opts = {})
           push_error(post, channel, res, opts) unless res["ok"] || opts[:no_retry]
-          push_gallery_caption(post, channel, res, opts) if post[:type] == :gallery
+          Gallery.push_remaining_gallery_data(post, channel, res, opts) if post[:type] == :gallery
           Video.delete_file if post[:type] == :video && post.dig(:misc)&.dig(:binary)
           res
-        end
-
-        def push_gallery_caption(post, channel, res, opts = {})
-          push({ type: :text, id: post[:id], text: post[:text] }, channel, opts.merge(gallery_caption_opts(res)))
-        end
-
-        def gallery_caption_opts(res)
-          gallery_caption_options = { disable_link_preview: true }
-          reply_to = res.dig("result", 0, "message_id")
-          return gallery_caption_options if reply_to.nil?
-
-          gallery_caption_options[:reply_to] = reply_to
-          gallery_caption_options
         end
 
         def push_error(post, channel, res, opts = {})

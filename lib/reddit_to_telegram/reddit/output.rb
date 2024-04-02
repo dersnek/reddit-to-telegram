@@ -54,10 +54,17 @@ module RedditToTelegram
         end
 
         def format_gallery_post(data)
-          base_post_format_attrs(data).merge(
-            { type: :gallery,
-              media: prepare_gallery_links(data) }
-          )
+          gallery_links = prepare_gallery_links(data)
+
+          gallery_attrs = {
+            type: :gallery,
+            media: gallery_links.first(10)
+          }
+
+          remaining_links = gallery_links.drop(10)
+          gallery_attrs[:additional_media] = remaining_links unless remaining_links.empty?
+
+          base_post_format_attrs(data).merge(gallery_attrs)
         end
 
         def format_video_post(data)
