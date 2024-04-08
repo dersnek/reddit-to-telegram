@@ -54,7 +54,7 @@ module RedditToTelegram
 
           base_post_format_attrs(data).merge(
             { type: :text,
-              text: "#{data['title']}\n\n#{data['url']}" }
+              text: "#{CGI.unescapeHTML(data['title'])}\n\n#{data['url']}" }
           )
         end
 
