@@ -5,8 +5,6 @@ module RedditToTelegram
     class << self
       def hot(sources)
         check_config
-        return if sources.empty?
-
         Store.setup
 
         sources.each do |telegram_chat_id, subreddit|
