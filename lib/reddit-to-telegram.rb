@@ -8,7 +8,7 @@ module RedditToTelegram
   class << self
     extend Forwardable
 
-    def_delegators :post, :hot, :single
+    def_delegators :post, :hot, :from_link
 
     def post
       Post

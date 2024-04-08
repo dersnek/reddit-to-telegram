@@ -59,7 +59,7 @@ RedditToTelegram.hot(
 ```
 Or to push one specific post (the only thing you need to set up for this is your telegram bot token):
 ```
-RedditToTelegram.single("regular_link_to_post", :telegram_channel_id)
+RedditToTelegram.from_link("regular_link_to_post", :telegram_channel_id)
 ```
 Use `:telegram_channel_id` without the `@`.
 

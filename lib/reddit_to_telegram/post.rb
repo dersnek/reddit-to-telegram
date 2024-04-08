@@ -21,7 +21,7 @@ module RedditToTelegram
         end
       end
 
-      def single(link, telegram_chat_id, opts = {})
+      def from_link(link, telegram_chat_id, opts = {})
         check_config
         return if link.empty?
 
