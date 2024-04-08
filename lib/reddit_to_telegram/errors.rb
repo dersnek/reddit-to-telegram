@@ -3,9 +3,10 @@
 module RedditToTelegram
   class RedditToTelegramError < StandardError; end
 
+  class BadResponseFromTelegram < RedditToTelegramError; end
+  class FailedToFetchFromReddit < RedditToTelegramError; end
   class InvalidStoreType < RedditToTelegramError; end
   class MissingConfiguration < RedditToTelegramError; end
-  class BadResponseFromTelegram < RedditToTelegramError; end
 
   class Errors
     class << self
@@ -22,6 +23,8 @@ module RedditToTelegram
         return unless Configuration.send_errors_to_telegram
 
         push_error_to_telegram(log_message)
+
+        nil
       end
 
       private
@@ -40,6 +43,8 @@ module RedditToTelegram
           },
           Configuration.telegram.error_channel_id
         )
+
+        nil
       end
     end
   end

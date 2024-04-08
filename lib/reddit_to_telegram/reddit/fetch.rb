@@ -55,12 +55,22 @@ module RedditToTelegram
             handle_429(func_name, func_args)
           when 200
             Output.format_response(res)
+          else
+            Errors.new(FailedToFetchFromReddit, res.to_s)
           end
         end
 
         def handle_401(func_name, func_args)
+          retries_left = func_args.last
+          func_args[func_args.length - 1] = retries_left - 1
+
           Store::Reddit.token = Auth.token
-          send(func_name, *func_args) if func_args.last > 0
+
+          if retries_left > 0
+            send(func_name, *func_args)
+          else
+            Errors.new(FailedToFetchFromReddit, "Failed to authenticate")
+          end
         end
 
         def handle_429(func_name, func_args)
@@ -68,7 +78,12 @@ module RedditToTelegram
 
           sleep(10 / retries_left) if retries_left > 0
           func_args[func_args.length - 1] = retries_left - 1
-          send(func_name, *func_args) if retries_left > 0
+
+          if retries_left > 0
+            send(func_name, *func_args)
+          else
+            Errors.new(FailedToFetchFromReddit, "Too many requests")
+          end
         end
       end
     end
