@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "configuration"
-require_relative "errors"
-require_relative "reddit/fetch"
-require_relative "store"
-require_relative "telegram/post"
-
 module RedditToTelegram
   class Post
     class << self

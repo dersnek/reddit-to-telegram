@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "video"
-require_relative "../services/translate"
-
 module RedditToTelegram
   module Telegram
     class PrepareRequest

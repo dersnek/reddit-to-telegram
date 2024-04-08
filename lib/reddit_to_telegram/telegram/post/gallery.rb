@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../post"
-
 module RedditToTelegram
   module Telegram
     class Post
@@ -25,7 +23,7 @@ module RedditToTelegram
           end
 
           def push_gallery_caption(post, channel, res, opts = {})
-            Post.push(
+            Telegram::Post.push(
               { type: :text,
                 id: post[:id],
                 text: post[:text] },

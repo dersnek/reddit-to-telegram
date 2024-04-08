@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require "httparty"
-require_relative "auth"
-require_relative "output"
-require_relative "../configuration"
-require_relative "../store"
 
 module RedditToTelegram
   module Reddit

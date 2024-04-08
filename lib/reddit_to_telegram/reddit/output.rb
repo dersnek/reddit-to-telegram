@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "cgi"
-require_relative "output/imgur"
-require_relative "../configuration"
 
 module RedditToTelegram
   module Reddit

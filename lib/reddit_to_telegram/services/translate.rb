@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "httparty"
-require_relative "../errors"
-require_relative "../store"
 
 module RedditToTelegram
   module Services

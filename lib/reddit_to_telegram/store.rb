@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "configuration"
-require_relative "errors"
-require_relative "store/aws_simple_db"
-require_relative "store/memory"
-require_relative "store/temp_file"
-
 module RedditToTelegram
   module Store
     MAX_STORED_POSTS = Configuration.store.max_stored_posts - 1

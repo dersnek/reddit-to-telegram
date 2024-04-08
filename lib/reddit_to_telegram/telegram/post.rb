@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require "httparty"
-require_relative "post/gallery"
-require_relative "prepare_request"
-require_relative "video"
-require_relative "../configuration"
 
 module RedditToTelegram
   module Telegram

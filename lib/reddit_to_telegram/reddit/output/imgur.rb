@@ -43,7 +43,7 @@ module RedditToTelegram
           end
 
           def format_imgur_post(data, video_url, width)
-            RedditToTelegram::Reddit::Output.send(
+            Reddit::Output.send(
               :base_post_format_attrs, data
             ).merge(
               {
