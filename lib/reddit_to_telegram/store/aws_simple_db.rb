@@ -2,8 +2,8 @@
 
 require "aws-sdk-simpledb"
 require "json"
-require_relative "../errors"
 require_relative "../configuration"
+require_relative "../errors"
 
 module RedditToTelegram
   module Store
@@ -34,8 +34,10 @@ module RedditToTelegram
 
           return if Configuration.aws.set_up?
 
-          raise(MissingConfiguration.new("Missing AWS credentials. "\
-            "Set them up or change store type to anything other than aws_simple_db"))
+          Errors.new(
+            MissingConfiguration,
+            "Missing AWS credentials. Set them up or change store type to anything other than aws_simple_db"
+          )
         end
 
         def reddit_token=(val)

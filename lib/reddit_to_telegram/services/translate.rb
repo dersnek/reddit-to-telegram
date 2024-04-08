@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "httparty"
+require_relative "../errors"
 require_relative "../store"
 
 module RedditToTelegram
@@ -30,7 +31,7 @@ module RedditToTelegram
         def check
           return if Configuration.google.set_up?
 
-          raise(MissingConfiguration.new("Missing Google credentials. Set them up or disable translation"))
+          Errors.new(MissingConfiguration, "Missing Google credentials. Set them up or disable translation")
         end
 
         def body(string, target_language)

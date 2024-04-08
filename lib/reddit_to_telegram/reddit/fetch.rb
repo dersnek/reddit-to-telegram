@@ -3,8 +3,8 @@
 require "httparty"
 require_relative "auth"
 require_relative "output"
-require_relative "../store"
 require_relative "../configuration"
+require_relative "../store"
 
 module RedditToTelegram
   module Reddit
@@ -28,6 +28,7 @@ module RedditToTelegram
             query: QUERY_FOR_SUBREDDIT,
             headers:
           )
+
           handle_response(res, hot: [subreddit, retries_left])
         end
 
@@ -41,6 +42,7 @@ module RedditToTelegram
             query: QUERY_FOR_POST,
             headers:
           )
+
           handle_response(res, post: [link, retries_left])
         end
 

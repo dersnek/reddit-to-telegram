@@ -1,26 +1,20 @@
 # frozen_string_literal: true
 
+require "logger"
+
 module RedditToTelegram
   module Configuration
     class << self
-      def aws
-        AWS
+      attr_writer :logger, :on_error
+
+      def logger
+        @logger ||= Logger.new($stdout).tap do |log|
+          log.progname = "RedditToTelegram"
+        end
       end
 
-      def google
-        Google
-      end
-
-      def reddit
-        Reddit
-      end
-
-      def store
-        Store
-      end
-
-      def telegram
-        Telegram
+      def on_error
+        @on_error ||= :log
       end
     end
 
@@ -113,6 +107,20 @@ module RedditToTelegram
         def error_channel_id
           @error_channel_id ||= ENV["RTT_TELEGRAM_ERROR_CHANNEL_ID"]
         end
+      end
+    end
+
+    class << self
+      NESTED_CONFIG = {
+        aws: AWS,
+        google: Google,
+        reddit: Reddit,
+        store: Store,
+        telegram: Telegram
+      }.freeze
+
+      NESTED_CONFIG.each do |key, value|
+        define_method(key) { value }
       end
     end
   end

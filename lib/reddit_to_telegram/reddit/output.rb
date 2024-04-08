@@ -2,6 +2,7 @@
 
 require "cgi"
 require_relative "output/imgur"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Reddit
@@ -23,6 +24,12 @@ module RedditToTelegram
 
         def format_post(post)
           data = post["data"]
+
+          unless data["removed_by_category"].nil?
+            Configuration.logger.warn("Reddit post was removed")
+            return
+          end
+
           if data["post_hint"] == "image"
             format_image_post(data)
           elsif data["post_hint"] == "link"

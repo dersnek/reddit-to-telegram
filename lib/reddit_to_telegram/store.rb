@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "configuration"
 require_relative "errors"
 require_relative "store/aws_simple_db"
 require_relative "store/memory"
 require_relative "store/temp_file"
-require_relative "configuration"
 
 module RedditToTelegram
   module Store
@@ -21,7 +21,7 @@ module RedditToTelegram
       attr_accessor :active
 
       def setup
-        raise(InvalidStoreType.new) unless CLASS_MAP.keys.include?(Configuration.store.type)
+        Errors.new(InvalidStoreType) unless CLASS_MAP.keys.include?(Configuration.store.type)
 
         self.active = Object.const_get(CLASS_MAP[Configuration.store.type])
         active.send(:setup)
