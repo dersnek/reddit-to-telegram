@@ -97,7 +97,8 @@ module RedditToTelegram
 
         def base_post_format_attrs(data)
           { id: data["name"],
-            text: CGI.unescapeHTML(data["title"]) }
+            text: CGI.unescapeHTML(data["title"]),
+            misc: {} }
         end
 
         def prepare_gallery_links(data)

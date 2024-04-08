@@ -5,30 +5,30 @@ module RedditToTelegram
     class Post
       class Gallery
         class << self
-          def push_remaining_gallery_data(post, channel, res, opts = {})
+          def push_remaining_gallery_data(post, channel, res)
             if post[:additional_media]
-              push_remaining_gallery_images(post, channel, opts)
+              push_remaining_gallery_images(post, channel)
             else
-              push_gallery_caption(post, channel, res, opts)
+              push_gallery_caption(post, channel, res)
             end
           end
 
           private
 
-          def push_remaining_gallery_images(post, channel,opts = {})
+          def push_remaining_gallery_images(post, channel)
             post[:media] = post[:additional_media].first(10)
             remaining = post.delete(:additional_media).drop(10)
             post[:additional_media] = remaining unless remaining.empty?
-            Post.push(post, channel, opts)
+            Post.push(post, channel)
           end
 
-          def push_gallery_caption(post, channel, res, opts = {})
+          def push_gallery_caption(post, channel, res)
             Telegram::Post.push(
               { type: :text,
                 id: post[:id],
-                text: post[:text] },
-              channel,
-              opts.merge(gallery_caption_opts(res))
+                text: post[:text],
+                misc: gallery_caption_opts(res) },
+              channel
             )
           end
 

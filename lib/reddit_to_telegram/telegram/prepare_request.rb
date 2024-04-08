@@ -4,52 +4,63 @@ module RedditToTelegram
   module Telegram
     class PrepareRequest
       class << self
-        def body(post, chat_id, opts = {})
-          body = prepare_body(post, chat_id, opts)
-          body[:link_preview_options] = { is_disabled: true } if opts[:disable_link_preview]
-          body[:reply_parameters] = { message_id: opts[:reply_to] } if opts[:reply_to]
+        def body(post, chat_id)
+          body = prepare_body(post, chat_id)
+          body[:link_preview_options] = { is_disabled: true } if post.dig(:misc, :disable_link_preview)
+          body[:reply_parameters] = { message_id: post[:misc][:reply_to] } if post.dig(:misc, :reply_to)
           body
         end
 
         private
 
-        def prepare_body(post, chat_id, opts = {})
+        def prepare_body(post, chat_id)
           case post[:type]
           when :image
-            { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id, opts) }
+            { chat_id: "@#{chat_id}", photo: post[:media], caption: prepare_text(post, chat_id) }
           when :gallery
-            { chat_id: "@#{chat_id}", media: prepare_gallery_media(post), caption: prepare_text(post, chat_id, opts) }
+            { chat_id: "@#{chat_id}", media: prepare_gallery_media(post), caption: prepare_text(post, chat_id) }
           when :gif
-            { chat_id: "@#{chat_id}", animation: post[:media], caption: prepare_text(post, chat_id, opts) }
+            { chat_id: "@#{chat_id}", animation: post[:media], caption: prepare_text(post, chat_id) }
           when :text
-            { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id, opts) }
+            { chat_id: "@#{chat_id}", text: prepare_text(post, chat_id) }
           when :video
             {
               chat_id: "@#{chat_id}",
               video: prepare_video(post),
               height: post[:misc][:video_height],
               width: post[:misc][:video_width],
-              caption: prepare_text(post, chat_id, opts)
+              caption: prepare_text(post, chat_id)
             }
           end
         end
 
-        def prepare_text(post, chat_id, opts = {})
+        def prepare_text(post, chat_id)
           text = post[:text]
 
-          text = Services::Translate.text(text, opts[:translate]) if opts[:translate]
+          text = translate(text)
+          text = add_reddit_link(text, post)
+          add_channel_handle(text, chat_id)
+        end
 
-          if opts[:add_reddit_link]
-            id = post[:id].split("_")[1]
-            text += "\n\nhttps://redd.it/#{id}"
-          end
+        def translate(text)
+          return text unless Configuration.translate
 
-          if opts[:add_channel_handle]
-            text += opts[:add_reddit_link] ? "\n" : "\n\n"
-            text += "@#{chat_id}"
-          end
+          Services::Translate.text(text, Configuration.translate)
+        end
 
+        def add_reddit_link(text, post)
+          return text unless Configuration.add_reddit_link
+
+          id = post[:id]&.split("_")&.dig(1)
+          text += "\n\nhttps://redd.it/#{id}" if id
           text
+        end
+
+        def add_channel_handle(text, chat_id)
+          return text unless Configuration.add_channel_handle
+
+          text += Configuration.add_reddit_link ? "\n" : "\n\n"
+          text + "@#{chat_id}"
         end
 
         def prepare_gallery_media(post)

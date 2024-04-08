@@ -5,7 +5,16 @@ require "logger"
 module RedditToTelegram
   module Configuration
     class << self
-      attr_writer :logger, :on_error
+      attr_writer :add_channel_handle, :add_reddit_link, :logger,
+                  :on_error, :send_errors_to_telegram, :translate
+
+      def add_channel_handle
+        @add_channel_handle ||= false
+      end
+
+      def add_reddit_link
+        @add_reddit_link ||= false
+      end
 
       def logger
         @logger ||= Logger.new($stdout).tap do |log|
@@ -15,6 +24,14 @@ module RedditToTelegram
 
       def on_error
         @on_error ||= :log
+      end
+
+      def send_errors_to_telegram
+        @send_errors_to_telegram ||= false
+      end
+
+      def translate
+        @translate ||= nil
       end
     end
 

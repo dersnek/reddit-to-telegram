@@ -3,7 +3,7 @@
 module RedditToTelegram
   class Post
     class << self
-      def hot(sources, opts = {})
+      def hot(sources)
         check_config
         return if sources.empty?
 
@@ -11,11 +11,11 @@ module RedditToTelegram
 
         sources.each do |subreddit, telegram_chat_id|
           res = Reddit::Fetch.hot(subreddit)
-          handle_res(res, subreddit, telegram_chat_id, opts)
+          handle_res(res, subreddit, telegram_chat_id)
         end
       end
 
-      def from_link(link, telegram_chat_id, opts = {})
+      def from_link(link, telegram_chat_id)
         check_config
         return if link.empty?
 
@@ -25,7 +25,7 @@ module RedditToTelegram
         res = Reddit::Fetch.post(link)
         return unless res_ok?(res)
 
-        Telegram::Post.push(res, telegram_chat_id, opts)
+        Telegram::Post.push(res, telegram_chat_id)
         res
       end
 
@@ -35,7 +35,7 @@ module RedditToTelegram
         Errors.new(MissingConfiguration, "Missing Telegram bot token") if Configuration.telegram.bot_token.to_s.empty?
       end
 
-      def handle_res(res, subreddit, telegram_chat_id, opts = {})
+      def handle_res(res, subreddit, telegram_chat_id)
         return unless res_ok?(res)
 
         post = find_new_post(subreddit, res)
@@ -45,7 +45,7 @@ module RedditToTelegram
           return
         end
 
-        res = Telegram::Post.push(post, telegram_chat_id, opts)
+        res = Telegram::Post.push(post, telegram_chat_id)
         Store::Posts.add(subreddit, post[:id])
         res
       end
