@@ -4,7 +4,7 @@ require "httparty"
 require_relative "auth"
 require_relative "output"
 require_relative "../store"
-require_relative "../variables"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Reddit
@@ -14,7 +14,7 @@ module RedditToTelegram
       BASE_URI = "https://oauth.reddit.com/r"
       WEBSITE_URI = "https://www.reddit.com/r"
       QUERY_FOR_POST = { g: "GLOBAL" }.freeze
-      QUERY_FOR_SUBREDDIT = QUERY_FOR_POST.merge(limit: Variables.store.max_stored_posts).freeze
+      QUERY_FOR_SUBREDDIT = QUERY_FOR_POST.merge(limit: Configuration.store.max_stored_posts).freeze
       BASE_HEADERS = {
         "Content-Type" => "application/json",
         "Accept" => "application/json"

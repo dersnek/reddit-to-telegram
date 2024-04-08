@@ -4,7 +4,7 @@ require "httparty"
 require_relative "post/gallery"
 require_relative "prepare_request"
 require_relative "video"
-require_relative "../variables"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Telegram
@@ -25,7 +25,7 @@ module RedditToTelegram
       class << self
         def push(post, channel, opts = {})
           res = HTTParty.post(
-            "#{BASE_URI}#{Variables.telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
+            "#{BASE_URI}#{Configuration.telegram.bot_token}/send#{METHOD_MAP[post[:type]]}",
             **params(post, channel, opts)
           )
 
@@ -54,7 +54,7 @@ module RedditToTelegram
         end
 
         def push_error(post, channel, res, opts = {})
-          return if Variables.telegram.error_channel_id.to_s.empty?
+          return if Configuration.telegram.error_channel_id.to_s.empty?
 
           push(
             {
@@ -62,7 +62,7 @@ module RedditToTelegram
               id: post[:id],
               text: "Channel: @#{channel}\n\nResponse: #{res}"
             },
-            Variables.telegram.error_channel_id,
+            Configuration.telegram.error_channel_id,
             opts.merge(
               add_reddit_link: true,
               disable_link_preview: true,

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "reddit_to_telegram/configuration"
 require_relative "reddit_to_telegram/post"
 require_relative "reddit_to_telegram/version"
 
@@ -11,6 +12,10 @@ module RedditToTelegram
 
     def post
       Post
+    end
+
+    def config
+      Configuration
     end
 
     def version

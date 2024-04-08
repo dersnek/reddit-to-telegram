@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
-require_relative "../variables"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Store
@@ -62,7 +62,7 @@ module RedditToTelegram
         end
 
         def temp_file_path
-          "#{Variables.store.tmp_dir}/store.json"
+          "#{Configuration.store.tmp_dir}/store.json"
         end
       end
     end

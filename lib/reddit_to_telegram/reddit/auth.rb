@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "httparty"
-require_relative "../variables"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Reddit
@@ -18,7 +18,7 @@ module RedditToTelegram
             URI,
             body: PARAMS,
             headers: HEADERS,
-            basic_auth: { username: Variables.reddit.client_id, password: Variables.reddit.client_secret }
+            basic_auth: { username: Configuration.reddit.client_id, password: Configuration.reddit.client_secret }
           )["access_token"]
         end
       end

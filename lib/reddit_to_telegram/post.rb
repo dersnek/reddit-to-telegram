@@ -3,7 +3,7 @@
 require_relative "reddit/fetch"
 require_relative "store"
 require_relative "telegram/post"
-require_relative "variables"
+require_relative "configuration"
 
 module RedditToTelegram
   class Post
@@ -22,7 +22,7 @@ module RedditToTelegram
       def single(link, telegram_chat_id, opts = {})
         return if link.empty?
 
-        Variables.store.type = :memory
+        Configuration.store.type = :memory
         Store.setup
 
         res = Reddit::Fetch.post(link)

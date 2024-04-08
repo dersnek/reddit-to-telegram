@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
 module RedditToTelegram
-  module Variables
+  module Configuration
     class << self
       def aws
-        RedditToTelegram::Variables::AWS
+        AWS
       end
 
       def google
-        RedditToTelegram::Variables::Google
+        Google
       end
 
       def reddit
-        RedditToTelegram::Variables::Reddit
+        Reddit
       end
 
       def store
-        RedditToTelegram::Variables::Store
+        Store
       end
 
       def telegram
-        RedditToTelegram::Variables::Telegram
+        Telegram
       end
     end
 

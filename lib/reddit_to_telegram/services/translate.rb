@@ -19,7 +19,7 @@ module RedditToTelegram
             BASE_URI,
             body: body(string, target_language),
             headers: HEADERS.merge(
-              "X-goog-api-key" => Variables.google.api_key
+              "X-goog-api-key" => Configuration.google.api_key
             )
           )
           res.dig("data", "translations")&.first&.dig("translatedText")
@@ -28,9 +28,9 @@ module RedditToTelegram
         private
 
         def check
-          return if Variables.google.set_up?
+          return if Configuration.google.set_up?
 
-          raise(MissingVariables.new("Missing Google credentials. Set them up or disable translation"))
+          raise(MissingConfiguration.new("Missing Google credentials. Set them up or disable translation"))
         end
 
         def body(string, target_language)

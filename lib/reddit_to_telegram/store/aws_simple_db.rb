@@ -3,7 +3,7 @@
 require "aws-sdk-simpledb"
 require "json"
 require_relative "../errors"
-require_relative "../variables"
+require_relative "../configuration"
 
 module RedditToTelegram
   module Store
@@ -13,9 +13,9 @@ module RedditToTelegram
       class << self
         def client
           @client ||= Aws::SimpleDB::Client.new(
-            access_key_id: Variables.aws.access_key_id,
-            secret_access_key: Variables.aws.secret_access_key,
-            region: Variables.aws.region
+            access_key_id: Configuration.aws.access_key_id,
+            secret_access_key: Configuration.aws.secret_access_key,
+            region: Configuration.aws.region
           )
         end
 
@@ -25,16 +25,16 @@ module RedditToTelegram
 
         def setup
           check_credentials
-          create_domain unless client.list_domains.domain_names.include?(Variables.aws.domain_name)
+          create_domain unless client.list_domains.domain_names.include?(Configuration.aws.domain_name)
           read_db
         end
 
         def check_credentials
-          return unless Variables.store.type == :aws_simple_db
+          return unless Configuration.store.type == :aws_simple_db
 
-          return if Variables.aws.set_up?
+          return if Configuration.aws.set_up?
 
-          raise(MissingVariables.new("Missing AWS credentials. "\
+          raise(MissingConfiguration.new("Missing AWS credentials. "\
             "Set them up or change store type to anything other than aws_simple_db"))
         end
 
@@ -59,7 +59,7 @@ module RedditToTelegram
         def read_db
           res = client.get_attributes(
             {
-              domain_name: Variables.aws.domain_name,
+              domain_name: Configuration.aws.domain_name,
               item_name: "cached_data",
               consistent_read: true
             }
@@ -81,7 +81,7 @@ module RedditToTelegram
         def write_db
           client.put_attributes(
             {
-              domain_name: Variables.aws.domain_name,
+              domain_name: Configuration.aws.domain_name,
               item_name: ITEM_NAME,
               attributes: prepare_db_attrs
             }
@@ -113,9 +113,9 @@ module RedditToTelegram
           res = client.list_domains
           return unless res.successful?
 
-          return if res.domain_names.include?(Variables.aws.domain_name)
+          return if res.domain_names.include?(Configuration.aws.domain_name)
 
-          client.create_domain({ domain_name: Variables.aws.domain_name })
+          client.create_domain({ domain_name: Configuration.aws.domain_name })
         end
       end
     end

@@ -42,10 +42,10 @@ To run it, you'll need some env variables set.
 
 You can also set them dynamically:
 ```
-RedditToTelegram::Variables.aws.access_key_id =
-RedditToTelegram::Variables.telegram.bot_token =
+RedditToTelegram.config.aws.access_key_id =
+RedditToTelegram.config.telegram.bot_token =
 ```
-Check out `lib/variables` for list of all available variables.
+Check out `lib/configuration` for full configuration.
 
 ## Usage
 
