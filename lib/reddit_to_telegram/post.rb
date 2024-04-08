@@ -26,6 +26,8 @@ module RedditToTelegram
         Store.setup
 
         res = Reddit::Fetch.post(link)
+        return if res.nil? || post[:type].nil?
+
         Telegram::Post.push(res, telegram_chat_id, opts)
         res
       end
@@ -33,7 +35,7 @@ module RedditToTelegram
       private
 
       def handle_res(res, subreddit, telegram_chat_id, opts = {})
-        return if res.nil?
+        return if res.nil? || post[:type].nil?
 
         post = find_new_post(subreddit, res)
         return if post.nil?
