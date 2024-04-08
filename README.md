@@ -7,7 +7,7 @@
 Beware, this is remotely not production-ready, API will change, you'll see lots of bugs and it may break at any time.
 Be sure to check for gem updates.
 
-You can set this bot up absolutely for free [via AWS Lambda](https://gist.github.com/dersnek/851c32a6b45eab19f1c8748095b2a481#file-free-rtt-bot-in-aws-lambda).
+You can set this bot up absolutely for free [via AWS Lambda](https://gist.github.com/dersnek/851c32a6b45eab19f1c8748095b2a481#file-free-rtt-bot-in-aws-lambda), no ruby knowledge required.
 
 ## Installation
 In your `Gemfile` add:
