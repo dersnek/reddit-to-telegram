@@ -43,7 +43,7 @@ module RedditToTelegram
         end
 
         def handle_response(post, channel, res)
-          log_error(post, channel, res) unless res["ok"] || post.dig(:misc, :no_retry)
+          log_error(post, channel, res) unless res["ok"]
           Gallery.push_remaining_gallery_data(post, channel, res) if post[:type] == :gallery
           Video.delete_file if post[:type] == :video && post.dig(:misc, :binary)
           res
