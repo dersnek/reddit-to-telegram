@@ -9,23 +9,23 @@ module RedditToTelegram
 
         Store.setup
 
-        sources.each do |subreddit, telegram_chat_id|
+        sources.each do |telegram_chat_id, subreddit|
           res = Reddit::Fetch.hot(subreddit)
           handle_res(res, subreddit, telegram_chat_id)
         end
       end
 
-      def from_link(link, telegram_chat_id)
+      def from_link(sources)
         check_config
-        return if link.empty?
+        return unless check_from_link_sources(sources)
 
         Configuration.store.type = :memory
         Store.setup
 
-        res = Reddit::Fetch.post(link)
+        res = Reddit::Fetch.post(sources.values.first)
         return unless res_ok?(res)
 
-        Telegram::Post.push(res, telegram_chat_id)
+        Telegram::Post.push(res, sources.keys.first)
         res
       end
 
@@ -64,6 +64,15 @@ module RedditToTelegram
 
       def find_new_post(subreddit, posts)
         posts.find { |post| !Store::Posts.dup?(subreddit, post[:id]) }
+      end
+
+      def check_from_link_sources(sources)
+        if !sources.is_a?(Hash) || sources.keys.count != 1 || sources.values.count != 1
+          Errors.new(ArgumentError, "Check documentation on usage")
+          return false
+        end
+
+        true
       end
     end
   end

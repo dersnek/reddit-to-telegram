@@ -54,13 +54,14 @@ telegram.error_channel_id | RTT_TELEGRAM_ERROR_CHANNEL_ID | Telegram channel to 
 2. To fetch latest hot post which hasn't been pushed yet:
 ```
 RedditToTelegram.hot(
-    subreddit_name_1: :telegram_channel_id_1,
-    subreddit_name_2: :telegram_channel_id_2
+    telegram_channel_id_1: :subreddit_name_1,
+    telegram_channel_id_2: :subreddit_name_2
   )
 ```
-Or to push one specific post (the only thing you need to set up for this is your telegram bot token):
+You can push posts from one subreddit to one telegram channel, several-to-one, one-to-several, several-to-several, whatever you like.
+You can also push one specific post:
 ```
-RedditToTelegram.from_link("regular_link_to_post", :telegram_channel_id)
+RedditToTelegram.from_link(telegram_channel_id: "regular_link_to_post")
 ```
 Use `:telegram_channel_id` without the `@`.
 
