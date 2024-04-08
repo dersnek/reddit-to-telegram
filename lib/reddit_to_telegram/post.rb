@@ -39,7 +39,11 @@ module RedditToTelegram
         return unless res_ok?(res)
 
         post = find_new_post(subreddit, res)
-        return if post.nil?
+
+        if post.nil?
+          Configuration.logger.info("Could not find a new post to push")
+          return
+        end
 
         res = Telegram::Post.push(post, telegram_chat_id, opts)
         Store::Posts.add(subreddit, post[:id])
@@ -50,7 +54,7 @@ module RedditToTelegram
         if res.nil?
           Configuration.logger.warn("Could not fetch Reddit post")
           false
-        elsif res[:type].nil?
+        elsif res.is_a?(Hash) && res[:type].nil?
           Configuration.logger.warn("Could not determine Reddit post type")
           false
         else
