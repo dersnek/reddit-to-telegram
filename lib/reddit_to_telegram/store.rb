@@ -2,14 +2,11 @@
 
 module RedditToTelegram
   module Store
-    MAX_STORED_POSTS = Configuration.store.max_stored_posts - 1
     CLASS_MAP = {
-      aws_simple_db: "RedditToTelegram::Store::AWSSimpleDB",
+      aws_dynamo_db: "RedditToTelegram::Store::AWSDynamoDB",
       memory: "RedditToTelegram::Store::Memory",
       temp_file: "RedditToTelegram::Store::TempFile"
     }.freeze
-
-    STORE = Object.const_get("RedditToTelegram::Store::AWSSimpleDB")
 
     class << self
       attr_accessor :active
@@ -19,6 +16,18 @@ module RedditToTelegram
 
         self.active = Object.const_get(CLASS_MAP[Configuration.store.type])
         active.send(:setup)
+      end
+
+      def max_stored_posts
+        Configuration.store.max_stored_posts - 1
+      end
+
+      def reddit
+        Reddit
+      end
+
+      def posts
+        Posts
       end
     end
 
@@ -36,12 +45,19 @@ module RedditToTelegram
 
     class Posts
       class << self
-        def add(subreddit, id)
-          Store.active.send(:add_post, subreddit, id)
+        def add(telegram_chat_id, subreddit, id)
+          Store.active.send(:add_post, telegram_chat_id, subreddit, id)
         end
 
-        def dup?(subreddit, id)
-          Store.active.send(:dup_post?, subreddit, id)
+        def dup?(telegram_chat_id, subreddit, id)
+          Store.active.send(:dup_post?, telegram_chat_id, subreddit, id)
+        end
+
+        def next(telegram_chat_id, subreddit, posts)
+          Store.active.send(:load_posts, telegram_chat_id)
+          new_post = posts.find { |post| !dup?(telegram_chat_id, subreddit, post[:id]) }
+          add(telegram_chat_id, subreddit, new_post[:id]) unless new_post.nil?
+          new_post
         end
       end
     end

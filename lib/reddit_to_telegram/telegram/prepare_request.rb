@@ -51,8 +51,7 @@ module RedditToTelegram
         def add_reddit_link(text, post)
           return text unless Configuration.add_reddit_link
 
-          id = post[:id]&.split("_")&.dig(1)
-          text += "\n\nhttps://redd.it/#{id}" if id
+          text += "\n\nhttps://redd.it/#{post[:id]}"
           text
         end
 

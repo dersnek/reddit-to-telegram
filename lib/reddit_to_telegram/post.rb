@@ -36,16 +36,14 @@ module RedditToTelegram
       def handle_res(res, subreddit, telegram_chat_id)
         return unless res_ok?(res)
 
-        post = find_new_post(subreddit, res)
+        post = Store.posts.next(telegram_chat_id, subreddit, res)
 
         if post.nil?
           Configuration.logger.info("Could not find a new post to push")
           return
         end
 
-        res = Telegram::Post.push(post, telegram_chat_id)
-        Store::Posts.add(subreddit, post[:id])
-        res
+        Telegram::Post.push(post, telegram_chat_id)
       end
 
       def res_ok?(res)
@@ -58,10 +56,6 @@ module RedditToTelegram
         else
           true
         end
-      end
-
-      def find_new_post(subreddit, posts)
-        posts.find { |post| !Store::Posts.dup?(subreddit, post[:id]) }
       end
 
       def check_from_link_sources(sources)

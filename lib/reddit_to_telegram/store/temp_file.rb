@@ -17,22 +17,34 @@ module RedditToTelegram
           read_file
         end
 
+        def load_posts(_); end
+
         def reddit_token=(val)
           @reddit_token = val
           write_file
         end
 
-        def add_post(subreddit, id)
-          @posts[subreddit] = [] if @posts[subreddit].nil?
-          @posts[subreddit] << id
-          @posts[subreddit].shift if @posts[subreddit].count > Store::MAX_STORED_POSTS
+        def add_post(telegram_chat_id, subreddit, id)
+          assign_empty_values_to_posts(telegram_chat_id, subreddit)
+
+          @posts[telegram_chat_id][subreddit] << id
+
+          if @posts[telegram_chat_id][subreddit].count > Store.max_stored_posts
+            @posts[telegram_chat_id][subreddit].shift
+          end
+
           write_file
         end
 
-        def dup_post?(subreddit, id)
-          return false if posts[subreddit].nil?
+        def assign_empty_values_to_posts(telegram_chat_id, subreddit)
+          @posts[telegram_chat_id] = {} if @posts[telegram_chat_id].nil?
+          @posts[telegram_chat_id][subreddit] = [] if @posts[telegram_chat_id][subreddit].nil?
+        end
 
-          posts[subreddit].include?(id)
+        def dup_post?(telegram_channel, subreddit, id)
+          return false if posts.dig(telegram_channel, subreddit).nil?
+
+          posts[telegram_channel][subreddit].include?(id)
         end
 
         def read_file
@@ -43,14 +55,14 @@ module RedditToTelegram
           @reddit_token = data["reddit_token"]
           @posts = {}
           data.each do |key, value|
-            @posts[key.split("_").last.to_sym] = value if key.match?(/posts_.+/)
+            @posts[key.split("_").last.to_sym] = value.transform_keys(&:to_sym) if key.match?(/posts_.+/)
           end
         end
 
         def write_file
           data = { reddit_token: @reddit_token }
-          @posts.each do |subreddit, values|
-            data["posts_#{subreddit}".to_sym] = values
+          @posts.each do |telegram_chat_id, values|
+            data["posts_#{telegram_chat_id}"] = values
           end
           File.open(temp_file_path, "w") { |f| f.write(data.to_json) }
         end

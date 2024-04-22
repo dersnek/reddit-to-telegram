@@ -11,17 +11,26 @@ module RedditToTelegram
         @posts = {}
 
         def setup; end
+        def load_posts(_); end
 
-        def add_post(subreddit, id)
-          @posts[subreddit] = [] if @posts[subreddit].nil?
-          @posts[subreddit] << id
-          @posts[subreddit].shift if @posts[subreddit].count > Store::MAX_STORED_POSTS
+        def add_post(telegram_chat_id, subreddit, id)
+          assign_empty_values_to_posts(telegram_chat_id, subreddit)
+
+          posts[telegram_chat_id][subreddit] << id
+          return unless posts[telegram_chat_id][subreddit].count > Store.max_stored_posts
+
+          posts[telegram_chat_id][subreddit].shift
         end
 
-        def dup_post?(subreddit, id)
-          return false if posts[subreddit].nil?
+        def assign_empty_values_to_posts(telegram_chat_id, subreddit)
+          posts[telegram_chat_id] = {} if posts[telegram_chat_id].nil?
+          posts[telegram_chat_id][subreddit] = [] if posts[telegram_chat_id][subreddit].nil?
+        end
 
-          posts[subreddit].include?(id)
+        def dup_post?(telegram_channel, subreddit, id)
+          return false if posts.dig(telegram_channel, subreddit).nil?
+
+          posts[telegram_channel][subreddit].include?(id)
         end
 
         def posts

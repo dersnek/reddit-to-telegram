@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "logger"
+require "pry"
 
 module RedditToTelegram
   module Configuration
@@ -37,7 +38,7 @@ module RedditToTelegram
 
     class Store
       DEFAULT_TMP_DIR = "#{Dir.pwd}/tmp".freeze
-      DEFAULT_TYPE = :aws_simple_db
+      DEFAULT_TYPE = :aws_dynamo_db
 
       class << self
         attr_writer :max_stored_posts, :tmp_dir, :type
@@ -57,8 +58,7 @@ module RedditToTelegram
     end
 
     class AWS
-      ATTRS = %i[access_key_id secret_access_key region domain_name].freeze
-      DEFAULT_DOMAIN_NAME = "reddit_to_telegram"
+      ATTRS = %i[access_key_id secret_access_key region].freeze
 
       class << self
         attr_writer(*ATTRS)
@@ -73,10 +73,6 @@ module RedditToTelegram
 
         def region
           @region ||= ENV["RTT_AWS_REGION"]
-        end
-
-        def domain_name
-          @domain_name ||= ENV["RTT_AWS_DOMAIN_NAME"] || DEFAULT_DOMAIN_NAME
         end
 
         def set_up?

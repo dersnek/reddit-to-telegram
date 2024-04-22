@@ -20,7 +20,7 @@ Or `gem install reddit-to-telegram`. Don't forget to `require` it.
 
 ## Prerequisites
 - [Obtain a telegram bot token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
-- (Optionally) You'll need an [AWS account](https://aws.amazon.com/) to host a free SimpleDB (best available storage type, also default one). I also recommend hosting the bot on AWS lambda, since it would be free.
+- (Optionally) You'll need an [AWS account](https://aws.amazon.com/) to host a free DynamoDB (best available storage type, also default one). I also recommend hosting the bot on AWS lambda, since it would be free.
 - (Optionally) [Create a Reddit app](https://www.reddit.com/prefs/apps), which would allow more requests to reddit
 
 It is pretty congifurable, either dynamically or via ENV variables.
@@ -35,16 +35,15 @@ logger                    | -                             | Which logger to use.
 on_error                  | -                             | What to do when an error happens. Default is :log, but you can also :raise or :ignore                                                                                        |
 send_errors_to_telegram   | -                             | Also log errors to telegram (besides regular logging). Accepted values: true or false, default is false                                                                      |
 translate                 | -                             | Translate posts via Google Translate. Leave empty for no translation. More details below                                                                                     |
-aws.access_key_id         | RTT_AWS_ACCESS_KEY_ID         | Your AWS access key ID. Needed for AWS SimpleDB storage                                                                                                                      |
-aws.domain_name           | RTT_AWS_DOMAIN_NAME           | Domain name to use for SimpleDB                                                                                                                                              |
-aws.region                | RTT_AWS_REGION                | AWS region your SimpleDB will be hosted on. Beware, it's not available in all regions.                                                                                       |
-aws.secret_access_key     | RTT_AWS_SECRET_ACCESS_KEY     | Your AWS access key ID. Needed for AWS SimpleDB storage.                                                                                                                     |
+aws.access_key_id         | RTT_AWS_ACCESS_KEY_ID         | Your AWS access key ID. Needed for AWS DynamoDB storage                                                                                                                      |
+aws.region                | RTT_AWS_REGION                | AWS region your DynamoDB is hosted on                                                                                                                                        |
+aws.secret_access_key     | RTT_AWS_SECRET_ACCESS_KEY     | Your AWS access key ID. Needed for AWS DynamoDB storage.                                                                                                                     |
 google.api_key            | RTT_GOOGLE_API_KEY            | Your Google API key to translate posts via Google Translate                                                                                                                  |
 reddit.client_id          | RTT_REDDIT_CLIENT_ID          | Reddit app credentials to access API. Reddit allows more authenticated requests                                                                                              |
 reddit.client_secret      | RTT_REDDIT_CLIENT_SECRET      | Reddit app credentials to access API. Reddit allows more authenticated requests                                                                                              |
 store.max_stored_posts    | RTT_MAX_STORED_POSTS          | Number of posts to store in the database to avoid duplicates, default is 25                                                                                                  |
 store.tmp_dir             | RTT_TEMP_DIR                  | Directory to write temp files to without trailing `/`                                                                                                                        |
-store.type                | RTT_STORE_TYPE                | Choose between `aws_simple_db`, `memory` or `temp_file`. Default is `aws_simple_db`, so if you're not specifying your AWS credentials, you have to choose another store type |
+store.type                | RTT_STORE_TYPE                | Choose between `aws_dynamo_db`, `memory` or `temp_file`. Default is `aws_dynamo_db`, so if you're not specifying your AWS credentials, you have to choose another store type |
 telegram.bot_token *      | RTT_TELEGRAM_BOT_TOKEN        | The token you've received when you've created a telegram bot                                                                                                                 |
 telegram.error_channel_id | RTT_TELEGRAM_ERROR_CHANNEL_ID | Telegram channel to send errors to (without `@`, only errors from Telegram API responses would be sent for now)                                                              |
 

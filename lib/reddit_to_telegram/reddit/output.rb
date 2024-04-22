@@ -96,7 +96,7 @@ module RedditToTelegram
         end
 
         def base_post_format_attrs(data)
-          { id: data["name"],
+          { id: data["name"].split("_")&.dig(1),
             text: CGI.unescapeHTML(data["title"]),
             misc: {} }
         end

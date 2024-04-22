@@ -4,7 +4,9 @@ module RedditToTelegram
   class RedditToTelegramError < StandardError; end
 
   class BadResponseFromTelegram < RedditToTelegramError; end
+  class FailedToCreateDatabaseTable < RedditToTelegramError; end
   class FailedToFetchFromReddit < RedditToTelegramError; end
+  class FailedToPersistData < RedditToTelegramError; end
   class InvalidStoreType < RedditToTelegramError; end
   class MissingConfiguration < RedditToTelegramError; end
 

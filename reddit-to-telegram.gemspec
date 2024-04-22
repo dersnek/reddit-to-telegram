@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/dersnek/reddit-to-telegram"
   s.license     = "MIT"
 
-  s.add_dependency "aws-sdk-simpledb"
+  s.add_dependency "aws-sdk-dynamodb", "~> 1.106"
   s.add_dependency "httparty"
 
   s.add_development_dependency "rubocop"

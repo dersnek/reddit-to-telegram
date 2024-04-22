@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "reddit_to_telegram/configuration"
 Dir["#{File.dirname(__FILE__)}/reddit_to_telegram/**/*.rb"].each { |file| require file }
 
 module RedditToTelegram
