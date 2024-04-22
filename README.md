@@ -61,7 +61,7 @@ RedditToTelegram.hot(
 You can push posts from one subreddit to one telegram channel, several-to-one, one-to-several, several-to-several, whatever you like.
 You can also push one specific post:
 ```
-RedditToTelegram.from_link(telegram_channel_id: "regular_link_to_post")
+RedditToTelegram.from_link(telegram_channel_id: "https://#{regular_link_to_post}")
 ```
 Use `:telegram_channel_id` without the `@`.
 
