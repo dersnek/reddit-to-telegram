@@ -7,9 +7,11 @@ module RedditToTelegram
         check_config
         Store.setup
 
-        sources.each do |telegram_chat_id, subreddit|
-          res = Reddit::Fetch.hot(subreddit)
-          handle_res(res, subreddit, telegram_chat_id)
+        sources.each do |telegram_chat_id, subreddits|
+          Array(subreddits).each do |subreddit|
+            res = Reddit::Fetch.hot(subreddit)
+            handle_res(res, subreddit, telegram_chat_id)
+          end
         end
       end
 
