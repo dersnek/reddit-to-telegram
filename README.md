@@ -53,9 +53,10 @@ telegram.error_channel_id | RTT_TELEGRAM_ERROR_CHANNEL_ID | Telegram channel to 
 2. To fetch latest hot post which hasn't been pushed yet:
 ```
 RedditToTelegram.hot(
-    telegram_channel_id_1: :subreddit_name_1,
-    telegram_channel_id_2: :subreddit_name_2
-  )
+  telegram_channel_id_1: :subreddit_name_1,
+  telegram_channel_id_2: [:subreddit_name_2, :subreddit_name_3],
+  telegram_channel_id_3: :subreddit_name_2
+)
 ```
 You can push posts from one subreddit to one telegram channel, several-to-one, one-to-several, several-to-several, whatever you like.
 You can also push one specific post:
