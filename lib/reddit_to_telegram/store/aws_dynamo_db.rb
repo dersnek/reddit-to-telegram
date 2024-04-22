@@ -2,7 +2,6 @@
 
 require "aws-sdk-dynamodb"
 require "json"
-require "pry"
 
 module RedditToTelegram
   module Store
