@@ -103,9 +103,12 @@ module RedditToTelegram
 
         def prepare_gallery_links(data)
           data["gallery_data"]["items"].map do |image|
-            data["media_metadata"].find do |key, _|
+            metadata = data["media_metadata"].find do |key, _|
               key == image["media_id"]
-            end[1]["s"]["u"].split("?").first.gsub("preview", "i")
+            end
+
+            metadata&.dig(1, "s", "u")&.split("?")&.first&.gsub("preview", "i") ||
+              metadata&.dig(1, "s", "mp4")&.split("?")&.first&.gsub("preview", "i")
           end
         end
       end
