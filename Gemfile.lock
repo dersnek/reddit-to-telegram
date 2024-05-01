@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    reddit-to-telegram (0.10.0)
+    reddit-to-telegram (0.10.1)
       aws-sdk-dynamodb (~> 1.106)
       httparty
 
