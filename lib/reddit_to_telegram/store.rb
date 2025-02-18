@@ -22,24 +22,8 @@ module RedditToTelegram
         Configuration.store.max_stored_posts - 1
       end
 
-      def reddit
-        Reddit
-      end
-
       def posts
         Posts
-      end
-    end
-
-    class Reddit
-      class << self
-        def token
-          Store.active.send(:reddit_token)
-        end
-
-        def token=(val)
-          Store.active.send(:reddit_token=, val)
-        end
       end
     end
 

@@ -6,8 +6,6 @@ module RedditToTelegram
       class << self
         private
 
-        attr_accessor :reddit_token
-
         @posts = {}
 
         def setup; end

@@ -19,8 +19,6 @@ module RedditToTelegram
 
         private
 
-        attr_reader :reddit_token
-
         def setup
           check_credentials
           prepare_db
@@ -87,7 +85,6 @@ module RedditToTelegram
         end
 
         def assign_default_values
-          @reddit_token = ""
           @posts = {}
         end
 

@@ -8,7 +8,7 @@ module RedditToTelegram
       class << self
         private
 
-        attr_reader :reddit_token, :posts
+        attr_reader :posts
 
         @reddit_token = nil
         @posts = {}
@@ -52,7 +52,6 @@ module RedditToTelegram
 
           file = File.read(temp_file_path)
           data = JSON.parse(file)
-          @reddit_token = data["reddit_token"]
           @posts = {}
           data.each do |key, value|
             @posts[key.split("_").last.to_sym] = value.transform_keys(&:to_sym) if key.match?(/posts_.+/)
@@ -60,7 +59,6 @@ module RedditToTelegram
         end
 
         def write_file
-          data = { reddit_token: @reddit_token }
           @posts.each do |telegram_chat_id, values|
             data["posts_#{telegram_chat_id}"] = values
           end
@@ -68,7 +66,6 @@ module RedditToTelegram
         end
 
         def assign_default_values
-          @reddit_token = nil
           @posts = {}
         end
 

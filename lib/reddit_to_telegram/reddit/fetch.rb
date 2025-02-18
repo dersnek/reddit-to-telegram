@@ -18,7 +18,7 @@ module RedditToTelegram
 
       class << self
         def hot(subreddit, retries_left = 5)
-          headers = BASE_HEADERS.merge("Authorization" => "Bearer #{Store::Reddit.token}")
+          headers = BASE_HEADERS.merge("Authorization" => "Bearer #{Auth.token}")
           res = HTTParty.get(
             "#{BASE_URI}/#{subreddit}/hot.json",
             query: QUERY_FOR_SUBREDDIT,
@@ -29,7 +29,7 @@ module RedditToTelegram
         end
 
         def post(link, retries_left = 5)
-          headers = BASE_HEADERS.merge("Authorization" => "Bearer #{Store::Reddit.token}")
+          headers = BASE_HEADERS.merge("Authorization" => "Bearer #{Auth.token}")
           link = link.gsub("www", "oauth") if link.match(/www.reddit.com/)
           link += ".json" unless link.match(/.json/)
 
@@ -49,27 +49,12 @@ module RedditToTelegram
           func_args = Array(func.values.first)
 
           case res.code
-          when 401
-            handle_401(func_name, func_args)
           when 429
             handle_429(func_name, func_args)
           when 200
             Output.format_response(res)
           else
             Errors.new(FailedToFetchFromReddit, res.to_s)
-          end
-        end
-
-        def handle_401(func_name, func_args)
-          retries_left = func_args.last
-          func_args[func_args.length - 1] = retries_left - 1
-
-          Store::Reddit.token = Auth.token
-
-          if retries_left > 0
-            send(func_name, *func_args)
-          else
-            Errors.new(FailedToFetchFromReddit, "Failed to authenticate")
           end
         end
 
